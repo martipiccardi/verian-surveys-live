@@ -33,7 +33,7 @@ html{font-size:15px}
 body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-primary);height:100vh;overflow:hidden;display:grid;grid-template-columns:320px 1fr;grid-template-rows:60px 1fr}
 .topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-xl);background:#333333;z-index:20;border-top:3px solid var(--verian-orange)}
 .topbar-brand{display:flex;align-items:center;gap:var(--space-md)}
-.topbar-logo img{height:32px;display:block;border-radius:4px}
+.topbar-logo img{height:36px;display:block;border-radius:4px}
 .topbar-divider{display:none}
 .topbar-title{font-weight:600;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;color:rgba(255,255,255,0.7)}
 .topbar-meta{display:flex;align-items:center;gap:var(--space-xl);font-size:0.75rem;color:rgba(255,255,255,0.5);font-weight:500}
@@ -153,7 +153,7 @@ body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-pri
 </style>
 </head>
 <body>
-<header class="topbar"><div class="topbar-brand"><div class="topbar-logo"><img src="verian-logo.png" alt="Verian"></div><div class="topbar-divider"></div><div class="topbar-title">Surveys Live Results</div></div><div class="topbar-meta"><div class="topbar-live"><span class="topbar-dot"></span>Live connection</div><div>Last sync: 2 min ago</div></div></header>
+<header class="topbar"><div class="topbar-brand"><div class="topbar-logo"><img src="verian-logo.png?v=2" alt="Verian"></div><div class="topbar-divider"></div><div class="topbar-title">Surveys Live Results</div></div><div class="topbar-meta"><div class="topbar-live"><span class="topbar-dot"></span>Live connection</div><div>Last sync: 2 min ago</div></div></header>
 <aside class="sidebar"><div class="sidebar-header"><h2>Ongoing Surveys</h2><span class="sidebar-count" id="surveyCount"></span></div><div class="survey-list" id="surveyList"></div></aside>
 <main class="main"><div class="main-tabs"><button class="tab active" data-tab="results" onclick="switchTab('results')">Results</button><button class="tab" data-tab="upload" onclick="switchTab('upload')">Upload Data</button></div>
 <div class="main-content" id="mainContent">
