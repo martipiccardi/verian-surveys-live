@@ -89,7 +89,7 @@ body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-pri
 .info-btn-wrap{position:relative;display:inline-flex;align-items:center;margin-left:auto}
 .info-btn{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--bg-surface);color:var(--text-secondary);font-family:var(--font-display);font-size:0.85rem;font-weight:700;font-style:italic;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all var(--transition);box-shadow:var(--shadow-sm)}
 .info-btn:hover{border-color:var(--verian-orange);color:var(--verian-orange);box-shadow:var(--shadow-md)}
-.info-popover{display:none;position:absolute;top:36px;right:0;z-index:50;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-lg);min-width:520px;max-width:620px;box-shadow:var(--shadow-lg);font-size:0.72rem;color:var(--text-secondary);line-height:1.7}
+.info-popover{display:none;position:absolute;top:36px;right:0;z-index:9999;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-lg);min-width:520px;max-width:620px;box-shadow:var(--shadow-lg);font-size:0.72rem;color:var(--text-secondary);line-height:1.7}
 .info-btn-wrap:hover .info-popover,.info-popover:hover{display:block}
 .info-popover strong{color:var(--text-primary);font-weight:700}
 .info-popover .info-footnotes{margin-top:10px;padding-top:10px;border-top:1px solid var(--border-subtle);font-size:0.65rem;color:var(--text-tertiary);line-height:1.6}
@@ -125,7 +125,7 @@ body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-pri
 .eb-trend-table td{padding:5px 8px;font-size:0.72rem;border-top:1px solid var(--border-subtle)}
 .eb-trend-table tr:first-child td{border-top:2px solid var(--verian-orange)}
 .eb-trend-table tr:last-child td{border-bottom:2px solid var(--verian-orange)}
-.trend-up{color:var(--ec-teal);font-weight:700}.trend-down{color:#d35454;font-weight:700}.trend-eq{color:var(--text-tertiary)}
+.trend-up{color:var(--text-primary);font-weight:700}.trend-down{color:var(--text-primary);font-weight:700}.trend-eq{color:var(--text-primary)}
 .multi-bar-group{display:flex;gap:var(--space-xl);margin-bottom:var(--space-md)}
 .multi-bar-col{flex:1}
 .multi-bar-col h4{font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;text-align:center}
