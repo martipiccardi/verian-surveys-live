@@ -471,7 +471,7 @@ const SURVEYS = [
       legend: ['Tend to trust', '', 'Tend not to trust', '', 'DK'],
       colors: [EC.teal, EC.tealLight, EC.purple, EC.salmon, EC.dk],
     },
-    pie: { slices: [{n:'Tend to trust',v:52},{n:'Tend not to trust',v:36},{n:'DK',v:12}] },
+    pie: { slices: [{n:'Tend to trust',v:52},{n:'Tend not to trust',v:36},{n:'DK',v:12}], colors: [EC.teal, EC.purple, EC.dk] },
     trend: {
       labels: ['EB 102','EB 103','EB 104','EB 105'],
       series: [
@@ -625,7 +625,7 @@ if (typeof Highcharts !== 'undefined') {
 
 function buildPie(survey) {
   const slices = survey.pie.slices;
-  const colors = [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk];
+  const colors = survey.pie.colors || [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk];
   const chart = Highcharts.chart('pieContainer', {
     chart: { type: 'pie', backgroundColor: 'transparent', marginTop: 5 },
     title: { text: null },
