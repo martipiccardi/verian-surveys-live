@@ -308,7 +308,7 @@ const SURVEYS = [
     title: 'Standard Eurobarometer 106 — Public Opinion in the EU',
     status: 'active', wave: 'Wave 3 of 4', updated: '14 Jun 2026',
     progress: 72, progressColor: 'var(--accent)',
-    responses: '26,412', countries: 27, margin: '±1.2%', changePct: '+3.4%',
+    responses: '26,412', countries: 27, fieldwork: '20 May – 28 Jun 2026', changePct: '+3.4%',
     question: 'QC1: In general, do you think that things are going in the right direction in the EU? (EU27) (%)',
     dateStamp: 'Jun 2026', prevDateStamp: 'Feb 2026',
     stacked: {
@@ -320,23 +320,16 @@ const SURVEYS = [
       colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
     },
     pie: { slices: [{n:'Totally agree',v:35},{n:'Tend to agree',v:32},{n:'Tend to disagree',v:20},{n:'Totally disagree',v:8},{n:'DK',v:5}] },
-    trend: {
-      labels: ['EB 102','EB 103','EB 104','EB 105','EB 106\nW3'],
-      series: [
-        { name: "TOTAL 'AGREE'", data: [58, 61, 63, 65, 67], color: EC.teal },
-        { name: "TOTAL 'DISAGREE'", data: [32, 30, 28, 26, 28], color: EC.purple },
-      ],
-    },
-    ranking: [
-      {code:'SE',hk:'se',v:74,s:[30,44,16,6,4]},{code:'ES',hk:'es',v:72,s:[28,44,18,6,4]},{code:'NL',hk:'nl',v:69,s:[26,43,20,7,4]},{code:'DE',hk:'de',v:67,s:[25,42,21,8,4]},
-      {code:'BE',hk:'be',v:63,s:[22,41,23,9,5]},{code:'FR',hk:'fr',v:61,s:[20,41,24,10,5]},{code:'PT',hk:'pt',v:58,s:[18,40,26,10,6]},{code:'IT',hk:'it',v:54,s:[16,38,28,12,6]},
-      {code:'PL',hk:'pl',v:48,s:[14,34,30,14,8]},{code:'RO',hk:'ro',v:41,s:[10,31,33,16,10]},{code:'FI',hk:'fi',v:70,s:[27,43,19,7,4]},{code:'DK',hk:'dk',v:72,s:[29,43,17,7,4]},
-      {code:'IE',hk:'ie',v:68,s:[25,43,20,8,4]},{code:'AT',hk:'at',v:60,s:[20,40,25,10,5]},
-      {code:'BG',hk:'bg',v:38,s:[8,30,35,17,10]},{code:'HR',hk:'hr',v:55,s:[17,38,27,12,6]},{code:'CZ',hk:'cz',v:44,s:[12,32,32,15,9]},
-      {code:'EE',hk:'ee',v:62,s:[21,41,23,10,5]},{code:'EL',hk:'gr',v:50,s:[15,35,29,13,8]},{code:'HU',hk:'hu',v:42,s:[11,31,33,16,9]},
-      {code:'LT',hk:'lt',v:58,s:[18,40,26,10,6]},{code:'LV',hk:'lv',v:53,s:[16,37,28,12,7]},{code:'LU',hk:'lu',v:71,s:[28,43,18,7,4]},
-      {code:'MT',hk:'mt',v:64,s:[23,41,22,9,5]},{code:'SI',hk:'si',v:56,s:[17,39,27,11,6]},{code:'SK',hk:'sk',v:46,s:[13,33,31,15,8]},
-      {code:'CY',hk:'cy',v:52,s:[15,37,29,12,7]},
+    countryRates: [
+      {name:'Germany',target:1500,done:1120},{name:'France',target:1500,done:1340},{name:'Italy',target:1500,done:980},
+      {name:'Spain',target:1500,done:1410},{name:'Poland',target:1000,done:720},{name:'Netherlands',target:1000,done:1000},
+      {name:'Belgium',target:1000,done:860},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:540},
+      {name:'Portugal',target:1000,done:780},{name:'Austria',target:1000,done:920},{name:'Denmark',target:1000,done:1000},
+      {name:'Finland',target:1000,done:950},{name:'Ireland',target:1000,done:870},{name:'Bulgaria',target:1000,done:380},
+      {name:'Croatia',target:1000,done:660},{name:'Czechia',target:1000,done:710},{name:'Estonia',target:500,done:500},
+      {name:'Greece',target:1000,done:620},{name:'Hungary',target:1000,done:530},{name:'Lithuania',target:500,done:500},
+      {name:'Latvia',target:500,done:440},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
+      {name:'Slovenia',target:500,done:430},{name:'Slovakia',target:1000,done:580},{name:'Cyprus',target:500,done:410},
     ],
     trendArrows: [
       {label:"Total 'Agree'", diff:+4}, {label:"Total 'Disagree'", diff:-2}, {label:'DK', diff:0}
@@ -347,7 +340,7 @@ const SURVEYS = [
     title: 'Special Eurobarometer 554 — Climate Change',
     status: 'active', wave: 'Wave 2 of 3', updated: '10 Jun 2026',
     progress: 58, progressColor: 'var(--green)',
-    responses: '18,730', countries: 24, margin: '±1.5%', changePct: '+1.8%',
+    responses: '18,730', countries: 24, fieldwork: '1 May – 20 Jun 2026', changePct: '+1.8%',
     question: 'QC3: How serious a problem do you think climate change is at this moment? (EU27) (%)',
     dateStamp: 'Jun 2026', prevDateStamp: 'Jan 2026',
     stacked: {
@@ -358,23 +351,16 @@ const SURVEYS = [
       colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
     },
     pie: { slices: [{n:'Very serious',v:42},{n:'Fairly serious',v:36},{n:'Not very serious',v:14},{n:'Not at all serious',v:5},{n:'DK',v:3}] },
-    trend: {
-      labels: ['EB 549','EB 551','EB 554\nW2'],
-      series: [
-        { name: "TOTAL 'SERIOUS'", data: [74, 76, 78], color: EC.teal },
-        { name: "TOTAL 'NOT SERIOUS'", data: [20, 18, 19], color: EC.purple },
-      ],
-    },
-    ranking: [
-      {code:'SE',hk:'se',v:91,s:[52,39,6,2,1]},{code:'ES',hk:'es',v:85,s:[45,40,10,3,2]},{code:'DE',hk:'de',v:82,s:[42,40,12,4,2]},{code:'NL',hk:'nl',v:79,s:[38,41,14,5,2]},
-      {code:'DK',hk:'dk',v:80,s:[40,40,13,5,2]},{code:'FR',hk:'fr',v:76,s:[35,41,16,5,3]},{code:'FI',hk:'fi',v:74,s:[34,40,17,6,3]},{code:'IE',hk:'ie',v:77,s:[36,41,15,5,3]},
-      {code:'BE',hk:'be',v:73,s:[33,40,18,6,3]},{code:'IT',hk:'it',v:71,s:[30,41,19,7,3]},{code:'AT',hk:'at',v:70,s:[29,41,20,7,3]},{code:'PT',hk:'pt',v:68,s:[27,41,21,8,3]},
-      {code:'PL',hk:'pl',v:52,s:[16,36,30,12,6]},{code:'RO',hk:'ro',v:45,s:[12,33,32,15,8]},
-      {code:'BG',hk:'bg',v:42,s:[10,32,33,16,9]},{code:'HR',hk:'hr',v:65,s:[25,40,22,9,4]},{code:'CZ',hk:'cz',v:58,s:[20,38,26,10,6]},
-      {code:'EE',hk:'ee',v:72,s:[32,40,18,7,3]},{code:'EL',hk:'gr',v:60,s:[22,38,25,10,5]},{code:'HU',hk:'hu',v:48,s:[14,34,31,14,7]},
-      {code:'LT',hk:'lt',v:66,s:[26,40,22,8,4]},{code:'LV',hk:'lv',v:61,s:[22,39,24,10,5]},{code:'LU',hk:'lu',v:83,s:[44,39,11,4,2]},
-      {code:'MT',hk:'mt',v:75,s:[35,40,17,5,3]},{code:'SI',hk:'si',v:63,s:[24,39,23,9,5]},{code:'SK',hk:'sk',v:50,s:[15,35,30,13,7]},
-      {code:'CY',hk:'cy',v:56,s:[18,38,28,11,5]},
+    countryRates: [
+      {name:'Germany',target:1500,done:870},{name:'France',target:1500,done:1050},{name:'Italy',target:1500,done:760},
+      {name:'Spain',target:1500,done:1200},{name:'Poland',target:1000,done:480},{name:'Netherlands',target:1000,done:820},
+      {name:'Belgium',target:1000,done:610},{name:'Sweden',target:1000,done:950},{name:'Romania',target:1000,done:340},
+      {name:'Portugal',target:1000,done:560},{name:'Austria',target:1000,done:700},{name:'Denmark',target:1000,done:880},
+      {name:'Finland',target:1000,done:730},{name:'Ireland',target:1000,done:650},{name:'Bulgaria',target:1000,done:220},
+      {name:'Croatia',target:1000,done:510},{name:'Czechia',target:1000,done:440},{name:'Estonia',target:500,done:380},
+      {name:'Greece',target:1000,done:470},{name:'Hungary',target:1000,done:350},{name:'Lithuania',target:500,done:410},
+      {name:'Latvia',target:500,done:300},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:420},
+      {name:'Slovenia',target:500,done:310},{name:'Slovakia',target:1000,done:390},{name:'Cyprus',target:500,done:280},
     ],
     trendArrows: [
       {label:"Total 'Serious'", diff:+2}, {label:"Total 'Not Serious'", diff:-1}, {label:'DK', diff:0}
@@ -385,7 +371,7 @@ const SURVEYS = [
     title: 'Flash Eurobarometer 543 — Digital Skills & Connectivity',
     status: 'processing', wave: 'Wave 1 of 2', updated: '12 Jun 2026',
     progress: 35, progressColor: 'var(--amber)',
-    responses: '9,214', countries: 27, margin: '±2.1%', changePct: '—',
+    responses: '9,214', countries: 27, fieldwork: '5 Jun – 15 Jul 2026', changePct: '—',
     question: 'QD1: How would you rate your own digital skills? (EU27) (%)',
     dateStamp: 'Jun 2026', prevDateStamp: 'N/A',
     stacked: {
@@ -396,23 +382,16 @@ const SURVEYS = [
       colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
     },
     pie: { slices: [{n:'Very good',v:22},{n:'Good',v:36},{n:'Basic',v:28},{n:'Poor',v:10},{n:'DK',v:4}] },
-    trend: {
-      labels: ['FB 543\nW1'],
-      series: [
-        { name: "TOTAL 'GOOD'", data: [58], color: EC.teal },
-        { name: "TOTAL 'POOR'", data: [38], color: EC.purple },
-      ],
-    },
-    ranking: [
-      {code:'SE',hk:'se',v:84,s:[38,46,10,4,2]},{code:'NL',hk:'nl',v:78,s:[32,46,14,5,3]},{code:'FI',hk:'fi',v:80,s:[34,46,12,5,3]},{code:'DK',hk:'dk',v:76,s:[30,46,15,6,3]},
-      {code:'DE',hk:'de',v:73,s:[28,45,17,7,3]},{code:'IE',hk:'ie',v:71,s:[26,45,19,7,3]},{code:'FR',hk:'fr',v:65,s:[22,43,22,9,4]},{code:'AT',hk:'at',v:64,s:[21,43,23,9,4]},
-      {code:'BE',hk:'be',v:62,s:[20,42,24,10,4]},{code:'ES',hk:'es',v:57,s:[18,39,27,11,5]},{code:'IT',hk:'it',v:48,s:[14,34,30,14,8]},{code:'PT',hk:'pt',v:44,s:[12,32,32,15,9]},
-      {code:'PL',hk:'pl',v:39,s:[10,29,34,17,10]},{code:'RO',hk:'ro',v:31,s:[6,25,36,20,13]},
-      {code:'BG',hk:'bg',v:28,s:[5,23,38,21,13]},{code:'HR',hk:'hr',v:52,s:[16,36,28,13,7]},{code:'CZ',hk:'cz',v:45,s:[13,32,31,15,9]},
-      {code:'EE',hk:'ee',v:70,s:[25,45,18,8,4]},{code:'EL',hk:'gr',v:42,s:[11,31,33,16,9]},{code:'HU',hk:'hu',v:36,s:[8,28,35,18,11]},
-      {code:'LT',hk:'lt',v:55,s:[17,38,27,12,6]},{code:'LV',hk:'lv',v:50,s:[15,35,29,13,8]},{code:'LU',hk:'lu',v:82,s:[36,46,11,4,3]},
-      {code:'MT',hk:'mt',v:60,s:[20,40,25,10,5]},{code:'SI',hk:'si',v:53,s:[16,37,28,12,7]},{code:'SK',hk:'sk',v:40,s:[10,30,34,17,9]},
-      {code:'CY',hk:'cy',v:46,s:[13,33,31,14,9]},
+    countryRates: [
+      {name:'Germany',target:1500,done:420},{name:'France',target:1500,done:510},{name:'Italy',target:1500,done:330},
+      {name:'Spain',target:1500,done:580},{name:'Poland',target:1000,done:210},{name:'Netherlands',target:1000,done:390},
+      {name:'Belgium',target:1000,done:280},{name:'Sweden',target:1000,done:470},{name:'Romania',target:1000,done:140},
+      {name:'Portugal',target:1000,done:250},{name:'Austria',target:1000,done:340},{name:'Denmark',target:1000,done:430},
+      {name:'Finland',target:1000,done:380},{name:'Ireland',target:1000,done:310},{name:'Bulgaria',target:1000,done:90},
+      {name:'Croatia',target:1000,done:230},{name:'Czechia',target:1000,done:190},{name:'Estonia',target:500,done:250},
+      {name:'Greece',target:1000,done:200},{name:'Hungary',target:1000,done:160},{name:'Lithuania',target:500,done:210},
+      {name:'Latvia',target:500,done:150},{name:'Luxembourg',target:500,done:340},{name:'Malta',target:500,done:270},
+      {name:'Slovenia',target:500,done:180},{name:'Slovakia',target:1000,done:170},{name:'Cyprus',target:500,done:130},
     ],
     trendArrows: [
       {label:"Total 'Good'", diff:0}, {label:"Total 'Poor'", diff:0}, {label:'DK', diff:0}
@@ -423,7 +402,7 @@ const SURVEYS = [
     title: 'Special Eurobarometer 551 — EU Citizens and Defence',
     status: 'active', wave: 'Wave 4 of 4', updated: '13 Jun 2026',
     progress: 94, progressColor: 'var(--green)',
-    responses: '31,087', countries: 27, margin: '±0.9%', changePct: '+5.1%',
+    responses: '31,087', countries: 27, fieldwork: '10 Apr – 15 Jun 2026', changePct: '+5.1%',
     question: 'QD2: Do you think the EU should have a common defence policy among its Member States? (EU27) (%)',
     dateStamp: 'Jun 2026', prevDateStamp: 'Oct 2025',
     stacked: {
@@ -434,23 +413,16 @@ const SURVEYS = [
       colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
     },
     pie: { slices: [{n:'Totally agree',v:38},{n:'Tend to agree',v:33},{n:'Tend to disagree',v:17},{n:'Totally disagree',v:7},{n:'DK',v:5}] },
-    trend: {
-      labels: ['EB 547','EB 549','EB 551\nW3','EB 551\nW4'],
-      series: [
-        { name: "TOTAL 'AGREE'", data: [55, 62, 67, 71], color: EC.teal },
-        { name: "TOTAL 'DISAGREE'", data: [35, 28, 24, 24], color: EC.purple },
-      ],
-    },
-    ranking: [
-      {code:'PL',hk:'pl',v:78,s:[35,43,14,5,3]},{code:'RO',hk:'ro',v:73,s:[30,43,17,6,4]},{code:'DE',hk:'de',v:71,s:[28,43,18,7,4]},{code:'FR',hk:'fr',v:68,s:[26,42,20,8,4]},
-      {code:'SE',hk:'se',v:66,s:[24,42,21,9,4]},{code:'FI',hk:'fi',v:64,s:[23,41,22,9,5]},{code:'ES',hk:'es',v:64,s:[23,41,22,9,5]},{code:'BE',hk:'be',v:61,s:[21,40,24,10,5]},
-      {code:'DK',hk:'dk',v:60,s:[20,40,25,10,5]},{code:'IT',hk:'it',v:59,s:[19,40,25,11,5]},{code:'IE',hk:'ie',v:58,s:[19,39,26,11,5]},{code:'AT',hk:'at',v:56,s:[18,38,27,11,6]},
-      {code:'NL',hk:'nl',v:55,s:[17,38,28,11,6]},{code:'PT',hk:'pt',v:52,s:[16,36,29,12,7]},
-      {code:'BG',hk:'bg',v:68,s:[26,42,20,8,4]},{code:'HR',hk:'hr',v:70,s:[28,42,19,7,4]},{code:'CZ',hk:'cz',v:50,s:[15,35,30,13,7]},
-      {code:'EE',hk:'ee',v:62,s:[22,40,23,10,5]},{code:'EL',hk:'gr',v:72,s:[30,42,18,6,4]},{code:'HU',hk:'hu',v:58,s:[19,39,26,11,5]},
-      {code:'LT',hk:'lt',v:65,s:[24,41,22,9,4]},{code:'LV',hk:'lv',v:60,s:[20,40,25,10,5]},{code:'LU',hk:'lu',v:54,s:[17,37,28,12,6]},
-      {code:'MT',hk:'mt',v:63,s:[22,41,23,9,5]},{code:'SI',hk:'si',v:67,s:[25,42,20,9,4]},{code:'SK',hk:'sk',v:56,s:[18,38,27,11,6]},
-      {code:'CY',hk:'cy',v:69,s:[27,42,19,8,4]},
+    countryRates: [
+      {name:'Germany',target:1500,done:1500},{name:'France',target:1500,done:1480},{name:'Italy',target:1500,done:1500},
+      {name:'Spain',target:1500,done:1500},{name:'Poland',target:1000,done:980},{name:'Netherlands',target:1000,done:1000},
+      {name:'Belgium',target:1000,done:1000},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:940},
+      {name:'Portugal',target:1000,done:1000},{name:'Austria',target:1000,done:1000},{name:'Denmark',target:1000,done:1000},
+      {name:'Finland',target:1000,done:1000},{name:'Ireland',target:1000,done:1000},{name:'Bulgaria',target:1000,done:910},
+      {name:'Croatia',target:1000,done:1000},{name:'Czechia',target:1000,done:970},{name:'Estonia',target:500,done:500},
+      {name:'Greece',target:1000,done:1000},{name:'Hungary',target:1000,done:960},{name:'Lithuania',target:500,done:500},
+      {name:'Latvia',target:500,done:500},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
+      {name:'Slovenia',target:500,done:500},{name:'Slovakia',target:1000,done:950},{name:'Cyprus',target:500,done:500},
     ],
     trendArrows: [
       {label:"Total 'Agree'", diff:+4}, {label:"Total 'Disagree'", diff:0}, {label:'DK', diff:-2}
@@ -461,7 +433,7 @@ const SURVEYS = [
     title: 'Standard Eurobarometer 105 — Democracy & Institutional Trust',
     status: 'closed', wave: 'Complete', updated: '28 May 2026',
     progress: 100, progressColor: 'var(--text-tertiary)',
-    responses: '33,540', countries: 27, margin: '±0.8%', changePct: '+2.3%',
+    responses: '33,540', countries: 27, fieldwork: '15 Mar – 25 May 2026', changePct: '+2.3%',
     question: 'QA1: Do you tend to trust or tend not to trust the European Union? (EU27) (%)',
     dateStamp: 'May 2026', prevDateStamp: 'Nov 2025',
     stacked: {
@@ -472,23 +444,16 @@ const SURVEYS = [
       colors: [EC.teal, EC.tealLight, EC.purple, EC.salmon, EC.dk],
     },
     pie: { slices: [{n:'Tend to trust',v:52},{n:'Tend not to trust',v:36},{n:'DK',v:12}], colors: [EC.teal, EC.purple, EC.dk] },
-    trend: {
-      labels: ['EB 102','EB 103','EB 104','EB 105'],
-      series: [
-        { name: 'Tend to trust', data: [42, 46, 49, 52], color: EC.teal },
-        { name: 'Tend not to trust', data: [44, 41, 38, 36], color: EC.purple },
-      ],
-    },
-    ranking: [
-      {code:'SE',hk:'se',v:68,s:[68,0,20,0,12]},{code:'DK',hk:'dk',v:65,s:[65,0,22,0,13]},{code:'FI',hk:'fi',v:63,s:[63,0,24,0,13]},{code:'NL',hk:'nl',v:61,s:[61,0,26,0,13]},
-      {code:'IE',hk:'ie',v:59,s:[59,0,28,0,13]},{code:'ES',hk:'es',v:56,s:[56,0,31,0,13]},{code:'DE',hk:'de',v:52,s:[52,0,36,0,12]},{code:'AT',hk:'at',v:50,s:[50,0,37,0,13]},
-      {code:'BE',hk:'be',v:47,s:[47,0,40,0,13]},{code:'PT',hk:'pt',v:45,s:[45,0,42,0,13]},{code:'FR',hk:'fr',v:43,s:[43,0,43,0,14]},{code:'IT',hk:'it',v:38,s:[38,0,48,0,14]},
-      {code:'PL',hk:'pl',v:35,s:[35,0,50,0,15]},{code:'RO',hk:'ro',v:29,s:[29,0,55,0,16]},
-      {code:'BG',hk:'bg',v:26,s:[26,0,57,0,17]},{code:'HR',hk:'hr',v:40,s:[40,0,45,0,15]},{code:'CZ',hk:'cz',v:32,s:[32,0,52,0,16]},
-      {code:'EE',hk:'ee',v:55,s:[55,0,32,0,13]},{code:'EL',hk:'gr',v:34,s:[34,0,51,0,15]},{code:'HU',hk:'hu',v:30,s:[30,0,54,0,16]},
-      {code:'LT',hk:'lt',v:48,s:[48,0,39,0,13]},{code:'LV',hk:'lv',v:42,s:[42,0,44,0,14]},{code:'LU',hk:'lu',v:66,s:[66,0,21,0,13]},
-      {code:'MT',hk:'mt',v:53,s:[53,0,34,0,13]},{code:'SI',hk:'si',v:44,s:[44,0,42,0,14]},{code:'SK',hk:'sk',v:33,s:[33,0,51,0,16]},
-      {code:'CY',hk:'cy',v:46,s:[46,0,41,0,13]},
+    countryRates: [
+      {name:'Germany',target:1500,done:1500},{name:'France',target:1500,done:1500},{name:'Italy',target:1500,done:1500},
+      {name:'Spain',target:1500,done:1500},{name:'Poland',target:1000,done:1000},{name:'Netherlands',target:1000,done:1000},
+      {name:'Belgium',target:1000,done:1000},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:1000},
+      {name:'Portugal',target:1000,done:1000},{name:'Austria',target:1000,done:1000},{name:'Denmark',target:1000,done:1000},
+      {name:'Finland',target:1000,done:1000},{name:'Ireland',target:1000,done:1000},{name:'Bulgaria',target:1000,done:1000},
+      {name:'Croatia',target:1000,done:1000},{name:'Czechia',target:1000,done:1000},{name:'Estonia',target:500,done:500},
+      {name:'Greece',target:1000,done:1000},{name:'Hungary',target:1000,done:1000},{name:'Lithuania',target:500,done:500},
+      {name:'Latvia',target:500,done:500},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
+      {name:'Slovenia',target:500,done:500},{name:'Slovakia',target:1000,done:1000},{name:'Cyprus',target:500,done:500},
     ],
     trendArrows: [
       {label:'Tend to trust', diff:+3}, {label:'Tend not to trust', diff:-2}, {label:'DK', diff:-1}
@@ -579,7 +544,7 @@ function renderResults(survey) {
     <div class="stats-row animate-in delay-1">
       <div class="stat-card"><div class="stat-label">Responses</div><div class="stat-value">${survey.responses}</div><div class="stat-change">${survey.changePct} vs prev wave</div></div>
       <div class="stat-card"><div class="stat-label">Countries</div><div class="stat-value">${survey.countries}</div></div>
-      <div class="stat-card"><div class="stat-label">Margin of Error</div><div class="stat-value">${survey.margin}</div></div>
+      <div class="stat-card"><div class="stat-label">Fieldwork</div><div class="stat-value" style="font-size:1rem">${survey.fieldwork}</div></div>
       <div class="stat-card"><div class="stat-label">Collection</div><div class="stat-value">${survey.progress}%</div><div class="stat-change">${survey.wave}</div></div>
     </div>
 
@@ -600,8 +565,8 @@ function renderResults(survey) {
       </div>
 
       <div class="chart-card full-width animate-in delay-3">
-        <div class="chart-title">Trend Over Time <small>Eurobarometer waves</small></div>
-        <div class="chart-container" id="trendContainer"></div>
+        <div class="chart-title">Response Rate by Country <small>${survey.countryRates.filter(c=>c.done>=c.target).length} of ${survey.countryRates.length} complete</small></div>
+        <div class="chart-container" id="countryRateContainer" style="height:auto;min-height:300px"></div>
       </div>
 
     </div>
@@ -610,7 +575,7 @@ function renderResults(survey) {
   if (typeof Highcharts !== 'undefined') {
     requestAnimationFrame(() => {
       buildPie(survey);
-      buildTrend(survey);
+      buildCountryRates(survey);
     });
   }
 }
@@ -644,44 +609,38 @@ function buildPie(survey) {
   activeCharts.push(chart);
 }
 
-function buildTrend(survey) {
-  const t = survey.trend;
-  const markers = ['circle','diamond','square','triangle'];
-  const chart = Highcharts.chart('trendContainer', {
-    chart: { type: 'line', backgroundColor: 'transparent', marginRight: 120, marginTop: 20 },
+function buildCountryRates(survey) {
+  const rates = survey.countryRates.slice().sort((a,b) => (b.done/b.target) - (a.done/a.target));
+  const chart = Highcharts.chart('countryRateContainer', {
+    chart: { type: 'bar', backgroundColor: 'transparent', height: Math.max(400, rates.length * 26 + 60) },
     title: { text: null },
     xAxis: {
-      categories: t.labels, labels: { style: { fontSize: '11px', color: '#555' } },
-      lineColor: '#ccc', tickColor: '#ccc',
+      categories: rates.map(c => c.name),
+      labels: { style: { fontSize: '11px', color: '#555' } },
+      lineWidth: 0, tickWidth: 0,
     },
     yAxis: {
       min: 0, max: 100, title: { text: null },
       labels: { format: '{value}%', style: { fontSize: '10px', color: '#666' } },
-      gridLineColor: '#e6e6e6', tickInterval: 10,
+      gridLineColor: '#e6e6e6',
+      plotLines: [{ value: 100, color: EC.teal, width: 2, dashStyle: 'Dash' }],
     },
     plotOptions: {
-      line: {
-        marker: { enabled: true, radius: 4, lineWidth: 0 },
-        dataLabels: { enabled: true, format: '{y}', style: { fontSize: '10px', fontWeight: 'bold', textOutline: 'none' }, y: -10 },
+      bar: {
+        borderWidth: 0, borderRadius: 2, groupPadding: 0.05, pointPadding: 0.02,
+        dataLabels: { enabled: true, format: '{point.done}/{point.target}', style: { fontSize: '9px', fontWeight: '600', textOutline: 'none', color: '#555' } },
       },
     },
     legend: { enabled: false },
-    series: t.series.map((s, i) => ({
-      ...s,
-      lineWidth: 3,
-      marker: { symbol: markers[i % markers.length], fillColor: s.color },
-      dataLabels: { style: { color: s.color } },
-    })),
+    tooltip: { pointFormat: '<b>{point.done}</b> of {point.target} interviews ({point.y:.0f}%)' },
+    series: [{
+      name: 'Completion',
+      data: rates.map(c => {
+        const pct = Math.round(c.done / c.target * 100);
+        return { y: pct, done: c.done, target: c.target, color: pct >= 100 ? EC.teal : pct >= 60 ? EC.tealLight : '#f59795' };
+      }),
+    }],
   });
-
-  t.series.forEach((s, i) => {
-    const hcS = chart.series[i];
-    if (!hcS || !hcS.points.length) return;
-    const last = hcS.points[hcS.points.length - 1];
-    chart.renderer.text(s.name, chart.plotLeft + chart.plotWidth + 12, last.plotY + chart.plotTop + 4)
-      .css({ fontSize: '10px', fontWeight: 'bold', color: s.color, whiteSpace: 'nowrap' }).add();
-  });
-
   activeCharts.push(chart);
 }
 
@@ -709,13 +668,9 @@ function handleFiles(files) {
 }
 
 function simulateUpdate(survey) {
-  survey.ranking.forEach(c => { c.v = Math.min(100, Math.max(10, c.v + Math.floor(Math.random()*7-2))); });
-  const t = survey.trend;
-  if (t.labels.length < 8) {
-    const newLabel = 'W' + (t.labels.length + 1);
-    t.labels.push(newLabel);
-    t.series.forEach(s => { const last = s.data[s.data.length-1]; s.data.push(Math.min(95, Math.max(5, last + Math.floor(Math.random()*6-2)))); });
-  }
+  survey.countryRates.forEach(c => {
+    c.done = Math.min(c.target, c.done + Math.floor(Math.random() * 80 + 20));
+  });
 }
 
 function showToast(msg) {
