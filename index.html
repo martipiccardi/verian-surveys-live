@@ -32,15 +32,14 @@
 html{font-size:15px}
 body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-primary);height:100vh;overflow:hidden;display:grid;grid-template-columns:320px 1fr;grid-template-rows:68px 1fr}
 .topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-xl);background:#2D2926;z-index:20;border-top:3px solid var(--verian-orange)}
-.topbar-brand{display:flex;flex-direction:column;justify-content:center;gap:2px}
-.topbar-main-title{font-weight:700;font-size:1.1rem;color:#ffffff;letter-spacing:-0.01em}
-.topbar-subtitle{font-weight:400;font-size:0.72rem;color:rgba(255,255,255,0.45);letter-spacing:0.01em}
+.topbar-brand{display:flex;flex-direction:column;justify-content:center;gap:3px}
+.topbar-main-title{font-family:var(--font-body);font-weight:700;font-size:1.2rem;color:#ffffff;letter-spacing:0em}
+.topbar-subtitle{font-family:var(--font-body);font-weight:400;font-size:0.75rem;color:rgba(255,255,255,0.55);letter-spacing:0.01em}
 .topbar-right{display:flex;align-items:center;gap:var(--space-xl)}
 .topbar-live{display:flex;align-items:center;gap:8px;background:rgba(0,178,169,0.15);padding:5px 14px;border-radius:99px;color:#00B2A9;font-weight:600;font-size:0.72rem}
 .topbar-dot{width:8px;height:8px;background:#00B2A9;border-radius:50%;display:inline-block;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(0,178,169,0.25)}
-.topbar-logo-right{display:flex;align-items:center;gap:10px}
-.topbar-logo-text{font-family:var(--font-display);font-weight:600;font-size:1.15rem;color:#ffffff;letter-spacing:0.01em}
-.topbar-logo-mark{width:28px;height:24px;display:inline-block}
+.topbar-logo-right{display:flex;align-items:center}
+.topbar-logo-right img{height:36px;display:block}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(0,178,169,0.25)}50%{opacity:0.5;box-shadow:0 0 0 6px rgba(0,178,169,0.08)}}
 .sidebar{background:var(--bg-surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .sidebar-header{padding:var(--space-lg) var(--space-lg) var(--space-md);display:flex;align-items:center;justify-content:space-between}
@@ -155,7 +154,7 @@ body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-pri
 </style>
 </head>
 <body>
-<header class="topbar"><div class="topbar-brand"><div class="topbar-main-title">Surveys Live Results</div><div class="topbar-subtitle">Standard Eurobarometer &mdash; First Results Interactive Dashboard</div></div><div class="topbar-right"><div class="topbar-live"><span class="topbar-dot"></span>Live connection</div><div style="font-size:0.75rem;color:rgba(255,255,255,0.4);font-weight:500">Last sync: 2 min ago</div><div class="topbar-logo-right"><span class="topbar-logo-text">verian</span><svg class="topbar-logo-mark" viewBox="0 0 120 104" fill="#F07D00"><path d="M60 4 L74 4 L112 70 L112 84 L98 84 L98 76 L70 26 L60 26 Z"/><path d="M112 84 L112 100 L8 100 L8 84 L22 84 L22 76 L92 76 L98 84 Z"/><path d="M8 84 L8 70 L46 4 L60 4 L60 26 L50 26 L22 76 L22 84 Z"/><path d="M60 4 L74 4 L67 16 L60 16 Z"/></svg></div></div></header>
+<header class="topbar"><div class="topbar-brand"><div class="topbar-main-title">Surveys Live Results</div><div class="topbar-subtitle">Standard Eurobarometer &mdash; First Results Interactive Dashboard</div></div><div class="topbar-right"><div class="topbar-live"><span class="topbar-dot"></span>Live connection</div><div style="font-size:0.75rem;color:rgba(255,255,255,0.4);font-weight:500">Last sync: 2 min ago</div><div class="topbar-logo-right"><img src="ppt-images/image5.png" alt="Verian"></div></div></header>
 <aside class="sidebar"><div class="sidebar-header"><h2>Ongoing Surveys</h2><span class="sidebar-count" id="surveyCount"></span></div><div class="survey-list" id="surveyList"></div></aside>
 <main class="main"><div class="main-tabs"><button class="tab active" data-tab="results" onclick="switchTab('results')">Results</button><button class="tab" data-tab="upload" onclick="switchTab('upload')">Upload Data</button></div>
 <div class="main-content" id="mainContent">
