@@ -9,679 +9,194 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="highcharts.js"></script>
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-  :root {
-    /* Verian Light Primary Palette */
-    --bg-root: #EDE5DB;
-    --bg-surface: #F5F0EB;
-    --bg-elevated: #E8E0D6;
-    --bg-hover: #E0D8CE;
-    --bg-active: #D8CFC4;
-
-    /* Verian Dark Primary Palette */
-    --text-primary: #2D2926;
-    --text-secondary: #7D7573;
-    --text-tertiary: #9B9492;
-
-    /* Verian Accent Palette */
-    --accent: #F07D00;
-    --accent-surface: #FBF0E2;
-    --verian-teal: #00BFB3;
-    --verian-orange: #F07D00;
-
-    /* Verian Extended Data Palette (charts) */
-    --ec-teal: #00BFB3;
-    --ec-teal-light: #66D9D0;
-    --ec-orange: #F07D00;
-    --ec-blue: #0047AB;
-    --ec-purple: #4B0082;
-    --ec-grey: #B5ADA9;
-
-    --green: #00BFB3;
-    --green-surface: #E0F5F3;
-    --amber: #F07D00;
-    --amber-surface: #FBF0E2;
-
-    /* Verian Grey borders */
-    --border: #C8BDB0;
-    --border-subtle: #D8D0C6;
-
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-
-    /* Verian Typography */
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Poppins', 'Century Gothic', system-ui, sans-serif;
-
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --space-2xl: 48px;
-  }
-
-  html { font-size: 15px; }
-
-  body {
-    font-family: var(--font-body);
-    background: var(--bg-root);
-    color: var(--text-primary);
-    height: 100vh;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 350px 1fr;
-    grid-template-rows: 60px 1fr;
-  }
-
-  .topbar {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--space-lg);
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-    z-index: 10;
-  }
-  .topbar-brand { display: flex; align-items: center; gap: var(--space-md); }
-  .topbar-logo img { height: 30px; display: block; }
-  .topbar-divider { width: 1px; height: 24px; background: var(--border); }
-  .topbar-title { font-family: var(--font-body); font-weight: 600; font-size: 0.88rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--text-secondary); }
-  .topbar-meta { display: flex; align-items: center; gap: var(--space-lg); font-size: 0.8rem; color: var(--text-tertiary); }
-  .topbar-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2.5s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
-
-  .sidebar {
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .sidebar-header { padding: var(--space-lg) var(--space-lg) var(--space-md); display: flex; align-items: center; justify-content: space-between; }
-  .sidebar-header h2 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
-  .sidebar-count { font-size: 0.72rem; font-weight: 700; background: var(--accent-surface); color: var(--accent); padding: 3px 10px; border-radius: 99px; }
-
-  .survey-list { flex: 1; overflow-y: auto; padding: 0 var(--space-sm) var(--space-md); }
-  .survey-list::-webkit-scrollbar { width: 4px; }
-  .survey-list::-webkit-scrollbar-track { background: transparent; }
-  .survey-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  .survey-item { padding: var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: background 0.15s; margin-bottom: 2px; }
-  .survey-item:hover { background: var(--bg-hover); }
-  .survey-item.active { background: var(--bg-active); }
-  .survey-item-title { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; line-height: 1.35; margin-bottom: var(--space-sm); }
-  .survey-item.active .survey-item-title { color: #F07D00; }
-  .survey-item-meta { display: flex; align-items: center; gap: var(--space-sm); font-size: 0.75rem; color: var(--text-tertiary); }
-
-  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 99px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-  .badge-active { background: var(--green-surface); color: var(--green); }
-  .badge-processing { background: var(--amber-surface); color: var(--amber); }
-  .badge-closed { background: oklch(0.93 0.005 70); color: var(--text-tertiary); }
-
-  .survey-item-bar { margin-top: var(--space-sm); height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .survey-item-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
-
-  .main { display: flex; flex-direction: column; overflow: hidden; }
-
-  .main-tabs { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-md) var(--space-xl) 0; border-bottom: 1px solid var(--border); background: var(--bg-surface); }
-  .tab { padding: var(--space-sm) var(--space-md) 12px; font-size: 0.82rem; font-weight: 600; color: var(--text-tertiary); cursor: pointer; border: none; border-bottom: 2px solid transparent; background: none; font-family: var(--font-body); transition: color 0.15s, border-color 0.15s; }
-  .tab:hover { color: var(--text-secondary); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  .main-content { flex: 1; overflow-y: auto; padding: var(--space-xl); }
-  .main-content::-webkit-scrollbar { width: 6px; }
-  .main-content::-webkit-scrollbar-track { background: transparent; }
-  .main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  .results-header { margin-bottom: var(--space-xl); }
-  .results-header h1 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: var(--space-sm); }
-  .results-header p { color: var(--text-secondary); font-size: 0.88rem; max-width: 65ch; line-height: 1.6; font-style: italic; font-family: var(--font-display); }
-
-  .stats-row { display: flex; gap: var(--space-md); margin-bottom: var(--space-xl); }
-  .stat-card { flex: 1; padding: var(--space-md) var(--space-lg); background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
-  .stat-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: var(--space-xs); }
-  .stat-value { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
-  .stat-change { font-size: 0.75rem; color: var(--green); font-weight: 600; margin-top: 2px; }
-
-  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl); }
-  .chart-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-lg); overflow: hidden; }
-  .chart-card.full-width { grid-column: 1 / -1; }
-  .chart-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: var(--space-md); display: flex; align-items: center; justify-content: space-between; }
-  .chart-title small { font-family: var(--font-body); font-weight: 500; color: var(--text-tertiary); font-size: 0.75rem; }
-  .chart-container { position: relative; height: 300px; }
-  .chart-container.short { height: 220px; }
-
-  /* ── Stacked bar (CSS-only, EB style) ── */
-  .eb-stacked { margin-bottom: var(--space-md); }
-  .eb-stacked-row { display: flex; align-items: center; margin-bottom: 10px; }
-  .eb-stacked-label { width: 110px; flex-shrink: 0; font-size: 0.78rem; color: var(--text-secondary); text-align: right; padding-right: 12px; }
-  .eb-stacked-track { flex: 1; height: 32px; display: flex; overflow: hidden; }
-  .eb-stacked-track.prev { opacity: 0.5; height: 24px; }
-  .eb-seg { display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; font-weight: 600; min-width: 0; transition: width 0.5s ease; }
-  .eb-seg span { white-space: nowrap; }
-
-  .eb-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: var(--space-md); }
-  .eb-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-secondary); }
-  .eb-legend-sq { width: 24px; height: 8px; flex-shrink: 0; }
-
-
-  /* ── Trend arrows (EB style) ── */
-  .eb-trend-table { width: 100%; border-collapse: collapse; }
-  .eb-trend-table td { padding: 3px 6px; font-size: 0.7rem; border-top: 1px solid var(--border-subtle); }
-  .eb-trend-table tr:first-child td { border-top: 1.5px solid var(--verian-teal); }
-  .eb-trend-table tr:last-child td { border-bottom: 1.5px solid var(--verian-teal); }
-  .trend-up { color: var(--verian-teal); }
-  .trend-down { color: #d35454; }
-  .trend-eq { color: var(--text-tertiary); }
-
-  /* ── Upload view ── */
-  .upload-view { display: none; }
-  .upload-view.visible { display: block; }
-  .results-view.hidden { display: none; }
-
-  .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: var(--space-2xl) var(--space-xl); text-align: center; transition: border-color 0.2s, background 0.2s; cursor: pointer; margin-bottom: var(--space-xl); background: var(--bg-surface); }
-  .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: var(--accent-surface); }
-  .upload-icon { width: 52px; height: 52px; margin: 0 auto var(--space-md); background: var(--accent-surface); border-radius: var(--radius-md); display: grid; place-items: center; }
-  .upload-icon svg { width: 24px; height: 24px; stroke: var(--accent); }
-  .upload-zone h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; margin-bottom: var(--space-sm); }
-  .upload-zone p { color: var(--text-secondary); font-size: 0.85rem; }
-  .upload-zone .formats { margin-top: var(--space-md); display: flex; justify-content: center; gap: var(--space-sm); }
-  .format-tag { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: var(--bg-elevated); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); }
-
-  .upload-history h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: var(--space-md); }
-  .upload-log { display: flex; flex-direction: column; gap: var(--space-sm); }
-  .upload-log-item { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.85rem; }
-  .upload-log-icon { width: 32px; height: 32px; background: var(--green-surface); border-radius: var(--radius-sm); display: grid; place-items: center; flex-shrink: 0; }
-  .upload-log-icon svg { width: 16px; height: 16px; stroke: var(--green); }
-  .upload-log-info { flex: 1; }
-  .upload-log-name { font-weight: 600; margin-bottom: 2px; }
-  .upload-log-meta { font-size: 0.75rem; color: var(--text-tertiary); }
-  .upload-log-status { font-size: 0.72rem; font-weight: 700; color: var(--green); text-transform: uppercase; }
-
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: var(--space-2xl); }
-  .empty-state-icon { width: 68px; height: 68px; background: var(--accent-surface); border-radius: var(--radius-lg); display: grid; place-items: center; margin-bottom: var(--space-lg); }
-  .empty-state-icon svg { width: 28px; height: 28px; stroke: var(--accent); }
-  .empty-state h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: var(--space-sm); }
-  .empty-state p { color: var(--text-secondary); font-size: 0.88rem; max-width: 40ch; line-height: 1.55; }
-
-  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg-surface); border: 1px solid var(--verian-teal); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); display: flex; align-items: center; gap: var(--space-md); font-size: 0.85rem; font-weight: 600; transform: translateY(120%); opacity: 0; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease; z-index: 100; box-shadow: 0 8px 32px rgba(45,41,38,0.12); }
-  .toast.visible { transform: translateY(0); opacity: 1; }
-
-  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .animate-in { animation: fadeSlideUp 0.4s cubic-bezier(0.16,1,0.3,1) both; }
-  .delay-1 { animation-delay: 0.06s; }
-  .delay-2 { animation-delay: 0.12s; }
-  .delay-3 { animation-delay: 0.18s; }
-  .delay-4 { animation-delay: 0.24s; }
-  .delay-5 { animation-delay: 0.30s; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-root:#F0EAE2;--bg-surface:#FAF8F5;--bg-elevated:#F5F0EB;
+  --bg-hover:rgba(240,125,0,0.04);--bg-active:rgba(240,125,0,0.08);
+  --text-primary:#1A1715;--text-secondary:#6B6462;--text-tertiary:#9B9492;
+  --accent:#F07D00;--accent-surface:#FFF5EB;
+  --ec-teal:#00826c;--ec-teal-light:#6cc7b6;--ec-purple:#935a9e;--ec-dk:#3d3b3e;
+  --green:#00BFB3;--green-surface:#E6F9F7;
+  --amber:#F07D00;--amber-surface:#FFF5EB;
+  --border:#DDD6CD;--border-subtle:#E8E2DA;
+  --shadow-sm:0 1px 3px rgba(26,23,21,0.06),0 1px 2px rgba(26,23,21,0.04);
+  --shadow-md:0 4px 12px rgba(26,23,21,0.07),0 2px 4px rgba(26,23,21,0.04);
+  --shadow-lg:0 12px 32px rgba(26,23,21,0.08),0 4px 8px rgba(26,23,21,0.04);
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Poppins','Century Gothic',system-ui,sans-serif;
+  --space-xs:4px;--space-sm:8px;--space-md:16px;--space-lg:24px;--space-xl:32px;--space-2xl:48px;
+  --transition:0.2s cubic-bezier(0.4,0,0.2,1);
+}
+html{font-size:15px}
+body{font-family:var(--font-body);background:var(--bg-root);color:var(--text-primary);height:100vh;overflow:hidden;display:grid;grid-template-columns:330px 1fr;grid-template-rows:64px 1fr}
+.topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-xl);background:rgba(250,248,245,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:20}
+.topbar-brand{display:flex;align-items:center;gap:var(--space-md)}
+.topbar-logo img{height:28px;display:block}
+.topbar-divider{width:1px;height:22px;background:var(--border)}
+.topbar-title{font-family:var(--font-body);font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary)}
+.topbar-meta{display:flex;align-items:center;gap:var(--space-xl);font-size:0.78rem;color:var(--text-tertiary);font-weight:500}
+.topbar-live{display:flex;align-items:center;gap:8px;background:var(--green-surface);padding:5px 14px;border-radius:99px;color:var(--ec-teal);font-weight:600;font-size:0.73rem}
+.topbar-dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(0,191,179,0.2)}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 3px rgba(0,191,179,0.2)}50%{opacity:0.6;box-shadow:0 0 0 6px rgba(0,191,179,0.08)}}
+.sidebar{background:var(--bg-surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sidebar-header{padding:var(--space-lg) var(--space-lg) var(--space-md);display:flex;align-items:center;justify-content:space-between}
+.sidebar-header h2{font-family:var(--font-display);font-size:1.05rem;font-weight:700}
+.sidebar-count{font-size:0.68rem;font-weight:700;background:var(--accent-surface);color:var(--accent);padding:4px 12px;border-radius:99px}
+.survey-list{flex:1;overflow-y:auto;padding:0 var(--space-md) var(--space-md)}
+.survey-list::-webkit-scrollbar{width:3px}
+.survey-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.survey-item{padding:var(--space-md) var(--space-lg);border-radius:var(--radius-md);cursor:pointer;transition:all var(--transition);margin-bottom:6px;border:1px solid transparent;position:relative}
+.survey-item:hover{background:var(--bg-hover);border-color:var(--border-subtle)}
+.survey-item.active{background:var(--bg-active);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow-sm)}
+.survey-item-title{font-family:var(--font-display);font-weight:600;font-size:0.9rem;line-height:1.4;margin-bottom:6px}
+.survey-item.active .survey-item-title{color:var(--accent)}
+.survey-item-meta{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-tertiary);flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em}
+.badge-active{background:var(--green-surface);color:var(--ec-teal)}
+.badge-processing{background:var(--amber-surface);color:var(--amber)}
+.survey-item-bar{margin-top:8px;height:4px;background:var(--border-subtle);border-radius:4px;overflow:hidden}
+.survey-item-bar-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.main{display:flex;flex-direction:column;overflow:hidden;background:var(--bg-root)}
+.main-tabs{display:flex;align-items:center;gap:var(--space-sm);padding:0 var(--space-xl);height:48px;border-bottom:1px solid var(--border);background:var(--bg-surface)}
+.tab{padding:var(--space-sm) var(--space-lg) 13px;font-size:0.8rem;font-weight:600;color:var(--text-tertiary);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;font-family:var(--font-body);transition:all var(--transition)}
+.tab:hover{color:var(--text-secondary)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.main-content{flex:1;overflow-y:auto;padding:var(--space-xl) var(--space-xl) var(--space-2xl)}
+.main-content::-webkit-scrollbar{width:5px}
+.main-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.results-header{margin-bottom:var(--space-lg)}
+.results-header h1{font-family:var(--font-display);font-size:1.55rem;font-weight:700;letter-spacing:-0.02em;line-height:1.3;margin-bottom:4px}
+.results-header p{color:var(--text-secondary);font-size:0.82rem;max-width:70ch;line-height:1.6;font-style:italic;font-family:var(--font-display)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-md);margin-bottom:var(--space-lg)}
+.stat-card{padding:var(--space-md) var(--space-lg);background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:all var(--transition)}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ec-teal);border-radius:3px 3px 0 0}
+.stat-card:nth-child(2)::before{background:var(--accent)}
+.stat-card:nth-child(3)::before{background:var(--ec-purple)}
+.stat-card:nth-child(4)::before{background:var(--ec-teal-light)}
+.stat-label{font-size:0.67rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-tertiary);margin-bottom:6px}
+.stat-value{font-family:var(--font-display);font-size:1.45rem;font-weight:700;letter-spacing:-0.02em}
+.stat-change{font-size:0.72rem;color:var(--ec-teal);font-weight:600;margin-top:3px}
+.methodology-strip{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:10px var(--space-lg);font-size:0.7rem;color:var(--text-tertiary);display:flex;flex-wrap:wrap;gap:var(--space-lg);margin-bottom:var(--space-lg);box-shadow:var(--shadow-sm)}
+.methodology-strip strong{color:var(--text-secondary);font-weight:700}
+.question-nav{display:flex;gap:8px;margin-bottom:var(--space-xl);flex-wrap:wrap}
+.q-pill{padding:10px 18px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-surface);cursor:pointer;font-family:var(--font-body);transition:all var(--transition);display:flex;flex-direction:column;align-items:center;gap:2px;min-width:110px;text-align:center;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.q-pill::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transition:transform 0.25s ease}
+.q-pill:hover{background:var(--bg-hover);border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.q-pill:hover::after{transform:scaleX(0.4)}
+.q-pill.active{border-color:var(--accent);background:var(--accent-surface);box-shadow:0 0 0 1px var(--accent),var(--shadow-md)}
+.q-pill.active::after{transform:scaleX(1)}
+.q-pill-code{font-size:0.74rem;font-weight:700;letter-spacing:0.03em;color:var(--text-secondary);transition:color var(--transition)}
+.q-pill-name{font-size:0.66rem;font-weight:500;color:var(--text-tertiary);transition:color var(--transition)}
+.q-pill.active .q-pill-code,.q-pill.active .q-pill-name{color:var(--accent)}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);margin-bottom:var(--space-xl)}
+.chart-card{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-lg) var(--space-xl);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition)}
+.chart-card:hover{box-shadow:var(--shadow-md)}
+.chart-card.full-width{grid-column:1/-1}
+.chart-title{font-family:var(--font-display);font-size:0.92rem;font-weight:600;margin-bottom:var(--space-lg);display:flex;align-items:center;justify-content:space-between;padding-bottom:var(--space-sm);border-bottom:1px solid var(--border-subtle)}
+.chart-title small{font-family:var(--font-body);font-weight:500;color:var(--text-tertiary);font-size:0.7rem}
+.chart-container{position:relative;height:300px}
+.chart-container.short{height:220px}
+.eb-stacked{margin-bottom:var(--space-md)}
+.eb-stacked-row{display:flex;align-items:center;margin-bottom:10px}
+.eb-stacked-label{width:130px;flex-shrink:0;font-size:0.75rem;color:var(--text-secondary);text-align:right;padding-right:14px;font-weight:500}
+.eb-stacked-track{flex:1;height:34px;display:flex;overflow:hidden;border-radius:6px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.06)}
+.eb-stacked-track.prev{opacity:0.45;height:24px;border-radius:5px}
+.eb-seg{display:flex;align-items:center;justify-content:center;font-size:0.73rem;color:#fff;font-weight:600;min-width:0;transition:width 0.6s cubic-bezier(0.4,0,0.2,1)}
+.eb-seg span{white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.15)}
+.eb-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:var(--space-md)}
+.eb-legend-item{display:flex;align-items:center;gap:7px;font-size:0.72rem;color:var(--text-secondary);font-weight:500}
+.eb-legend-sq{width:22px;height:8px;flex-shrink:0;border-radius:3px}
+.eb-trend-table{width:100%;border-collapse:collapse}
+.eb-trend-table td{padding:5px 8px;font-size:0.72rem;border-top:1px solid var(--border-subtle)}
+.eb-trend-table tr:first-child td{border-top:2px solid var(--ec-teal)}
+.eb-trend-table tr:last-child td{border-bottom:2px solid var(--ec-teal)}
+.trend-up{color:var(--ec-teal);font-weight:700}.trend-down{color:#d35454;font-weight:700}.trend-eq{color:var(--text-tertiary)}
+.multi-bar-group{display:flex;gap:var(--space-xl);margin-bottom:var(--space-md)}
+.multi-bar-col{flex:1}
+.multi-bar-col h4{font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;text-align:center}
+.upload-view{display:none}.upload-view.visible{display:block}.results-view.hidden{display:none}
+.upload-zone{border:2px dashed var(--border);border-radius:var(--radius-xl);padding:var(--space-2xl) var(--space-xl);text-align:center;transition:all var(--transition);cursor:pointer;margin-bottom:var(--space-xl);background:var(--bg-surface)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--accent-surface)}
+.upload-icon{width:56px;height:56px;margin:0 auto var(--space-md);background:var(--accent-surface);border-radius:var(--radius-md);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+.upload-icon svg{width:24px;height:24px;stroke:var(--accent)}
+.upload-zone h3{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-bottom:var(--space-sm)}
+.upload-zone p{color:var(--text-secondary);font-size:0.82rem}
+.upload-zone .formats{margin-top:var(--space-md);display:flex;justify-content:center;gap:var(--space-sm)}
+.format-tag{font-size:0.68rem;font-weight:700;padding:4px 12px;border-radius:99px;background:var(--bg-elevated);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;border:1px solid var(--border)}
+.upload-history h3{font-family:var(--font-display);font-size:1rem;font-weight:600;margin-bottom:var(--space-md)}
+.upload-log{display:flex;flex-direction:column;gap:var(--space-sm)}
+.upload-log-item{display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md);background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);font-size:0.82rem;box-shadow:var(--shadow-sm)}
+.upload-log-icon{width:34px;height:34px;background:var(--green-surface);border-radius:var(--radius-sm);display:grid;place-items:center;flex-shrink:0}
+.upload-log-icon svg{width:16px;height:16px;stroke:var(--ec-teal)}
+.upload-log-info{flex:1}.upload-log-name{font-weight:600;margin-bottom:2px}.upload-log-meta{font-size:0.72rem;color:var(--text-tertiary)}
+.upload-log-status{font-size:0.68rem;font-weight:700;color:var(--ec-teal);text-transform:uppercase;background:var(--green-surface);padding:3px 10px;border-radius:99px}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:var(--space-2xl)}
+.empty-state-icon{width:72px;height:72px;background:var(--accent-surface);border-radius:var(--radius-lg);display:grid;place-items:center;margin-bottom:var(--space-lg);box-shadow:var(--shadow-md)}
+.empty-state-icon svg{width:28px;height:28px;stroke:var(--accent)}
+.empty-state h2{font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:var(--space-sm)}
+.empty-state p{color:var(--text-secondary);font-size:0.85rem;max-width:38ch;line-height:1.6}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--bg-surface);border:1px solid var(--ec-teal);border-radius:var(--radius-md);padding:var(--space-md) var(--space-xl);display:flex;align-items:center;gap:var(--space-md);font-size:0.82rem;font-weight:600;transform:translateY(120%);opacity:0;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.4s ease;z-index:100;box-shadow:var(--shadow-lg)}
+.toast.visible{transform:translateY(0);opacity:1}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeSlideUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
+.delay-1{animation-delay:0.07s}.delay-2{animation-delay:0.14s}.delay-3{animation-delay:0.21s}.delay-4{animation-delay:0.28s}.delay-5{animation-delay:0.35s}
 </style>
 </head>
 <body>
-
-<header class="topbar">
-  <div class="topbar-brand">
-    <div class="topbar-logo"><img src="verian-logo.png" alt="Verian"></div>
-    <div class="topbar-divider"></div>
-    <div class="topbar-title">Surveys Live Results</div>
-  </div>
-  <div class="topbar-meta">
-    <div><span class="topbar-dot"></span>Live connection</div>
-    <div>Last sync: 2 min ago</div>
-  </div>
-</header>
-
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <h2>Ongoing Surveys</h2>
-    <span class="sidebar-count" id="surveyCount"></span>
-  </div>
-  <div class="survey-list" id="surveyList"></div>
-</aside>
-
-<main class="main">
-  <div class="main-tabs">
-    <button class="tab active" data-tab="results" onclick="switchTab('results')">Results</button>
-    <button class="tab" data-tab="upload" onclick="switchTab('upload')">Upload Data</button>
-  </div>
-
-  <div class="main-content" id="mainContent">
-    <div class="empty-state" id="emptyState">
-      <div class="empty-state-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 4-6"/></svg>
-      </div>
-      <h2>Select a survey</h2>
-      <p>Choose an ongoing survey from the sidebar to view its live results and trends.</p>
-    </div>
-
-    <div class="results-view hidden" id="resultsView"></div>
-
-    <div class="upload-view" id="uploadView">
-      <div class="results-header animate-in">
-        <h1>Upload New Results</h1>
-        <p>Drag and drop survey result files to update existing data or add new waves. Files are matched to surveys automatically.</p>
-      </div>
-      <div class="upload-zone animate-in delay-1" id="uploadZone">
-        <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-        <h3>Drop files here or click to browse</h3>
-        <p>Upload result files to update survey data in real time</p>
-        <div class="formats"><span class="format-tag">.csv</span><span class="format-tag">.xlsx</span><span class="format-tag">.json</span></div>
-      </div>
-      <div class="upload-history animate-in delay-2">
-        <h3>Recent Uploads</h3>
-        <div class="upload-log" id="uploadLog">
-          <div class="upload-log-item"><div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">EB106_wave3_results.csv</div><div class="upload-log-meta">Standard EB 106 &middot; 14 Jun 2026 &middot; 27 countries &middot; 1,204 rows</div></div><div class="upload-log-status">Merged</div></div>
-          <div class="upload-log-item"><div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">flash_digital_skills_june.xlsx</div><div class="upload-log-meta">Flash EB 543 &middot; 12 Jun 2026 &middot; 27 countries &middot; 843 rows</div></div><div class="upload-log-status">Merged</div></div>
-          <div class="upload-log-item"><div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">climate_change_554_update.csv</div><div class="upload-log-meta">Special EB 554 &middot; 10 Jun 2026 &middot; 24 countries &middot; 956 rows</div></div><div class="upload-log-status">Merged</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<div class="toast" id="toast">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--verian-teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  <span id="toastMsg"></span>
-</div>
+<header class="topbar"><div class="topbar-brand"><div class="topbar-logo"><img src="verian-logo.png" alt="Verian"></div><div class="topbar-divider"></div><div class="topbar-title">Surveys Live Results</div></div><div class="topbar-meta"><div class="topbar-live"><span class="topbar-dot"></span>Live connection</div><div>Last sync: 2 min ago</div></div></header>
+<aside class="sidebar"><div class="sidebar-header"><h2>Ongoing Surveys</h2><span class="sidebar-count" id="surveyCount"></span></div><div class="survey-list" id="surveyList"></div></aside>
+<main class="main"><div class="main-tabs"><button class="tab active" data-tab="results" onclick="switchTab('results')">Results</button><button class="tab" data-tab="upload" onclick="switchTab('upload')">Upload Data</button></div>
+<div class="main-content" id="mainContent">
+<div class="empty-state" id="emptyState"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 4-6"/></svg></div><h2>Select a survey</h2><p>Choose an ongoing survey from the sidebar to view its live results and trends.</p></div>
+<div class="results-view hidden" id="resultsView"></div>
+<div class="upload-view" id="uploadView">
+<div class="results-header animate-in"><h1>Upload New Results</h1><p>Drag and drop survey result files to update existing data or add new waves.</p></div>
+<div class="upload-zone animate-in delay-1" id="uploadZone"><div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><h3>Drop files here or click to browse</h3><p>Upload result files to update survey data in real time</p><div class="formats"><span class="format-tag">.csv</span><span class="format-tag">.xlsx</span><span class="format-tag">.json</span></div></div>
+<div class="upload-history animate-in delay-2"><h3>Recent Uploads</h3><div class="upload-log" id="uploadLog">
+<div class="upload-log-item"><div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">EB105_spring2026_wave3.csv</div><div class="upload-log-meta">Standard EB 105 &middot; 14 Jun 2026 &middot; 27 countries &middot; 26,415 rows</div></div><div class="upload-log-status">Merged</div></div>
+<div class="upload-log-item"><div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">flash_digital_skills_june.xlsx</div><div class="upload-log-meta">Flash EB 543 &middot; 12 Jun 2026 &middot; 27 countries &middot; 843 rows</div></div><div class="upload-log-status">Merged</div></div>
+</div></div></div></div></main>
+<div class="toast" id="toast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ec-teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg"></span></div>
 <input type="file" id="fileInput" accept=".csv,.xlsx,.json" style="display:none" multiple>
-
 <script>
-const EC = { teal: '#00826c', tealLight: '#6cc7b6', salmon: '#f59795', purple: '#935a9e', dk: '#3d3b3e' };
-
-const COUNTRIES_ALL = [
-  { code: 'EU27', name: 'EU 27' },
-  { code: 'DE', name: 'Germany' }, { code: 'FR', name: 'France' },
-  { code: 'IT', name: 'Italy' }, { code: 'ES', name: 'Spain' },
-  { code: 'PL', name: 'Poland' }, { code: 'NL', name: 'Netherlands' },
-  { code: 'BE', name: 'Belgium' }, { code: 'SE', name: 'Sweden' },
-  { code: 'RO', name: 'Romania' }, { code: 'PT', name: 'Portugal' },
-  { code: 'AT', name: 'Austria' }, { code: 'DK', name: 'Denmark' },
-  { code: 'FI', name: 'Finland' }, { code: 'IE', name: 'Ireland' },
+var EC={teal:'#00826c',tealLight:'#6cc7b6',purple:'#935a9e',dk:'#3d3b3e',salmon:'#f59795'};
+var EB105_QUESTIONS=[
+{id:'qc2_1',code:'QC2.1',shortName:'EU Citizenship',question:'You feel you are a citizen of the EU (% - EU)',categories:["Total 'Yes'","Total 'No'","Don't know"],colors:[EC.teal,EC.purple,EC.dk],eu27:{curr:[75,25,0],prev:[73,27,0]},prevLabel:'Aut 2025',trend:{labels:['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','Spr 26'],series:[{name:"Total 'Yes'",color:EC.teal,data:[62,61,63,59,67,66,68,70,73,70,74,71,74,72,74,73,75]},{name:"Total 'No'",color:EC.purple,data:[37,38,36,40,31,33,31,29,26,29,25,28,25,27,25,27,25]}]},countries:[{code:'LU',name:'Luxembourg',v:[92,7,1]},{code:'PT',name:'Portugal',v:[89,11,0]},{code:'ES',name:'Spain',v:[86,14,0]},{code:'IE',name:'Ireland',v:[86,14,0]},{code:'DK',name:'Denmark',v:[84,15,1]},{code:'FI',name:'Finland',v:[83,16,1]},{code:'MT',name:'Malta',v:[83,17,0]},{code:'SE',name:'Sweden',v:[83,17,0]},{code:'DE',name:'Germany',v:[81,19,0]},{code:'SK',name:'Slovakia',v:[81,19,0]},{code:'HU',name:'Hungary',v:[80,20,0]},{code:'LV',name:'Latvia',v:[80,20,0]},{code:'LT',name:'Lithuania',v:[79,20,1]},{code:'SI',name:'Slovenia',v:[78,22,0]},{code:'CY',name:'Cyprus',v:[76,24,0]},{code:'PL',name:'Poland',v:[76,23,1]},{code:'EE',name:'Estonia',v:[75,24,1]},{code:'EU27',name:'EU 27',v:[75,25,0]},{code:'BE',name:'Belgium',v:[74,26,0]},{code:'NL',name:'Netherlands',v:[74,26,0]},{code:'AT',name:'Austria',v:[72,28,0]},{code:'HR',name:'Croatia',v:[68,32,0]},{code:'RO',name:'Romania',v:[68,31,1]},{code:'IT',name:'Italy',v:[67,33,0]},{code:'FR',name:'France',v:[65,34,1]},{code:'CZ',name:'Czechia',v:[62,38,0]},{code:'BG',name:'Bulgaria',v:[57,43,0]},{code:'EL',name:'Greece',v:[56,44,0]}]},
+{id:'qa6_overview',code:'QA6',shortName:'Trust Overview',question:'How much trust do you have in certain institutions? (% - EU - Tend to trust)',isMultiInstitution:true,institutions:[{name:'The European Union',short:'EU',curr:[51,43,6],prev:[48,46,6],change:'+3'},{name:'National Parliament',short:'Parliament',curr:[37,58,5],prev:[34,61,5],change:'+3'},{name:'National Government',short:'Government',curr:[37,59,4],prev:[33,63,4],change:'+4'}],categories:['Tend to trust','Tend not to trust',"Don't know"],colors:[EC.teal,EC.purple,EC.dk],trend:{labels:['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','Spr 26'],series:[{name:'European Union',color:EC.teal,data:[42,43,33,31,31,33,36,42,42,44,43,49,47,47,50,48,51]},{name:'National Parliament',color:EC.purple,data:[31,31,28,25,27,31,28,35,35,36,35,36,36,36,37,34,37]},{name:'National Government',color:EC.dk,data:[29,28,24,27,29,31,27,37,28,32,31,34,32,33,34,33,37]}]},countries:null},
+{id:'qa6_12',code:'QA6.12',shortName:'Trust in EU',question:'Do you tend to trust or tend not to trust... The European Union (%)',categories:['Tend to trust','Tend not to trust',"Don't know"],colors:[EC.teal,EC.purple,EC.dk],eu27:{curr:[51,43,6],prev:[48,46,6]},prevLabel:'Aut 2025',trend:null,countries:[{code:'PT',name:'Portugal',v:[79,16,5]},{code:'DK',name:'Denmark',v:[73,23,4]},{code:'SE',name:'Sweden',v:[69,28,3]},{code:'LT',name:'Lithuania',v:[63,26,11]},{code:'FI',name:'Finland',v:[60,29,11]},{code:'IE',name:'Ireland',v:[60,28,12]},{code:'MT',name:'Malta',v:[60,31,9]},{code:'PL',name:'Poland',v:[58,34,8]},{code:'NL',name:'Netherlands',v:[57,40,3]},{code:'HR',name:'Croatia',v:[55,41,4]},{code:'LU',name:'Luxembourg',v:[55,40,5]},{code:'BG',name:'Bulgaria',v:[52,37,11]},{code:'IT',name:'Italy',v:[52,44,4]},{code:'DE',name:'Germany',v:[51,43,6]},{code:'EU27',name:'EU 27',v:[51,43,6]},{code:'HU',name:'Hungary',v:[51,44,5]},{code:'AT',name:'Austria',v:[49,45,6]},{code:'EE',name:'Estonia',v:[49,35,16]},{code:'LV',name:'Latvia',v:[48,40,12]},{code:'RO',name:'Romania',v:[48,46,6]},{code:'SK',name:'Slovakia',v:[48,45,7]},{code:'ES',name:'Spain',v:[47,46,7]},{code:'BE',name:'Belgium',v:[46,51,3]},{code:'CZ',name:'Czechia',v:[46,49,5]},{code:'CY',name:'Cyprus',v:[39,54,7]},{code:'SI',name:'Slovenia',v:[39,54,7]},{code:'FR',name:'France',v:[38,53,9]},{code:'EL',name:'Greece',v:[36,61,3]}]},
+{id:'qa6_10',code:'QA6.10',shortName:'Trust in Govt',question:'Do you tend to trust or tend not to trust... The (nationality) Government (%)',categories:['Tend to trust','Tend not to trust',"Don't know"],colors:[EC.teal,EC.purple,EC.dk],eu27:{curr:[37,59,4],prev:[33,63,4]},prevLabel:'Aut 2025',trend:null,countries:[{code:'LU',name:'Luxembourg',v:[75,19,6]},{code:'DK',name:'Denmark',v:[59,36,5]},{code:'PT',name:'Portugal',v:[54,43,3]},{code:'MT',name:'Malta',v:[52,41,7]},{code:'AT',name:'Austria',v:[51,46,3]},{code:'NL',name:'Netherlands',v:[49,48,3]},{code:'IE',name:'Ireland',v:[48,46,6]},{code:'SE',name:'Sweden',v:[46,52,2]},{code:'CZ',name:'Czechia',v:[45,52,3]},{code:'HU',name:'Hungary',v:[45,52,3]},{code:'PL',name:'Poland',v:[43,51,6]},{code:'FI',name:'Finland',v:[42,50,8]},{code:'DE',name:'Germany',v:[41,55,4]},{code:'BE',name:'Belgium',v:[38,60,2]},{code:'EU27',name:'EU 27',v:[37,59,4]},{code:'IT',name:'Italy',v:[37,60,3]},{code:'EE',name:'Estonia',v:[36,52,12]},{code:'HR',name:'Croatia',v:[36,60,4]},{code:'ES',name:'Spain',v:[34,62,4]},{code:'LT',name:'Lithuania',v:[33,61,6]},{code:'CY',name:'Cyprus',v:[31,64,5]},{code:'RO',name:'Romania',v:[31,66,3]},{code:'SK',name:'Slovakia',v:[30,66,4]},{code:'SI',name:'Slovenia',v:[27,67,6]},{code:'LV',name:'Latvia',v:[25,69,6]},{code:'BG',name:'Bulgaria',v:[22,70,8]},{code:'EL',name:'Greece',v:[21,77,2]},{code:'FR',name:'France',v:[21,73,6]}]},
+{id:'qa6_11',code:'QA6.11',shortName:'Trust in Parl.',question:'Do you tend to trust or tend not to trust... The (nationality) Parliament (%)',categories:['Tend to trust','Tend not to trust',"Don't know"],colors:[EC.teal,EC.purple,EC.dk],eu27:{curr:[37,58,5],prev:[34,61,5]},prevLabel:'Aut 2025',trend:null,countries:[{code:'SE',name:'Sweden',v:[71,27,2]},{code:'DK',name:'Denmark',v:[67,30,3]},{code:'LU',name:'Luxembourg',v:[61,24,15]},{code:'FI',name:'Finland',v:[57,35,8]},{code:'AT',name:'Austria',v:[55,41,4]},{code:'PT',name:'Portugal',v:[55,42,3]},{code:'NL',name:'Netherlands',v:[50,47,3]},{code:'IE',name:'Ireland',v:[48,44,8]},{code:'MT',name:'Malta',v:[48,43,9]},{code:'DE',name:'Germany',v:[47,49,4]},{code:'HU',name:'Hungary',v:[41,55,4]},{code:'BE',name:'Belgium',v:[39,58,3]},{code:'IT',name:'Italy',v:[39,58,3]},{code:'PL',name:'Poland',v:[39,54,7]},{code:'EU27',name:'EU 27',v:[37,58,5]},{code:'CZ',name:'Czechia',v:[33,63,4]},{code:'HR',name:'Croatia',v:[33,63,4]},{code:'EE',name:'Estonia',v:[29,58,13]},{code:'SK',name:'Slovakia',v:[29,68,3]},{code:'ES',name:'Spain',v:[26,68,6]},{code:'RO',name:'Romania',v:[25,71,4]},{code:'LV',name:'Latvia',v:[24,69,7]},{code:'SI',name:'Slovenia',v:[24,70,6]},{code:'FR',name:'France',v:[23,68,9]},{code:'CY',name:'Cyprus',v:[22,74,4]},{code:'EL',name:'Greece',v:[22,75,3]},{code:'LT',name:'Lithuania',v:[20,75,5]},{code:'BG',name:'Bulgaria',v:[16,78,6]}]}
 ];
-
-const SURVEYS = [
-  {
-    id: 'eb106',
-    title: 'Standard Eurobarometer 106 — Public Opinion in the EU',
-    status: 'active', wave: 'Wave 3 of 4', updated: '14 Jun 2026',
-    progress: 72, progressColor: 'var(--accent)',
-    responses: '26,412', countries: 27, fieldwork: '20 May – 28 Jun 2026', changePct: '+3.4%',
-    question: 'QC1: In general, do you think that things are going in the right direction in the EU? (EU27) (%)',
-    dateStamp: 'Jun 2026', prevDateStamp: 'Feb 2026',
-    stacked: {
-      groups: [
-        { label: 'EU 27', curr: [35, 32, 20, 8, 5], prev: [32, 31, 22, 10, 5] },
-        { label: 'Right direction', curr: [67, 0, 0, 0, 0], prev: [63, 0, 0, 0, 0] },
-      ],
-      legend: ['Totally agree', 'Tend to agree', 'Tend to disagree', 'Totally disagree', 'DK'],
-      colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
-    },
-    pie: { slices: [{n:'Totally agree',v:35},{n:'Tend to agree',v:32},{n:'Tend to disagree',v:20},{n:'Totally disagree',v:8},{n:'DK',v:5}] },
-    countryRates: [
-      {name:'Germany',target:1500,done:1120},{name:'France',target:1500,done:1340},{name:'Italy',target:1500,done:980},
-      {name:'Spain',target:1500,done:1410},{name:'Poland',target:1000,done:720},{name:'Netherlands',target:1000,done:1000},
-      {name:'Belgium',target:1000,done:860},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:540},
-      {name:'Portugal',target:1000,done:780},{name:'Austria',target:1000,done:920},{name:'Denmark',target:1000,done:1000},
-      {name:'Finland',target:1000,done:950},{name:'Ireland',target:1000,done:870},{name:'Bulgaria',target:1000,done:380},
-      {name:'Croatia',target:1000,done:660},{name:'Czechia',target:1000,done:710},{name:'Estonia',target:500,done:500},
-      {name:'Greece',target:1000,done:620},{name:'Hungary',target:1000,done:530},{name:'Lithuania',target:500,done:500},
-      {name:'Latvia',target:500,done:440},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
-      {name:'Slovenia',target:500,done:430},{name:'Slovakia',target:1000,done:580},{name:'Cyprus',target:500,done:410},
-    ],
-    trendArrows: [
-      {label:"Total 'Agree'", diff:+4}, {label:"Total 'Disagree'", diff:-2}, {label:'DK', diff:0}
-    ],
-  },
-  {
-    id: 'eb554',
-    title: 'Special Eurobarometer 554 — Climate Change',
-    status: 'active', wave: 'Wave 2 of 3', updated: '10 Jun 2026',
-    progress: 58, progressColor: 'var(--green)',
-    responses: '18,730', countries: 24, fieldwork: '1 May – 20 Jun 2026', changePct: '+1.8%',
-    question: 'QC3: How serious a problem do you think climate change is at this moment? (EU27) (%)',
-    dateStamp: 'Jun 2026', prevDateStamp: 'Jan 2026',
-    stacked: {
-      groups: [
-        { label: 'EU 27', curr: [42, 36, 14, 5, 3], prev: [40, 34, 16, 6, 4] },
-      ],
-      legend: ['Very serious', 'Fairly serious', 'Not very serious', 'Not at all serious', 'DK'],
-      colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
-    },
-    pie: { slices: [{n:'Very serious',v:42},{n:'Fairly serious',v:36},{n:'Not very serious',v:14},{n:'Not at all serious',v:5},{n:'DK',v:3}] },
-    countryRates: [
-      {name:'Germany',target:1500,done:870},{name:'France',target:1500,done:1050},{name:'Italy',target:1500,done:760},
-      {name:'Spain',target:1500,done:1200},{name:'Poland',target:1000,done:480},{name:'Netherlands',target:1000,done:820},
-      {name:'Belgium',target:1000,done:610},{name:'Sweden',target:1000,done:950},{name:'Romania',target:1000,done:340},
-      {name:'Portugal',target:1000,done:560},{name:'Austria',target:1000,done:700},{name:'Denmark',target:1000,done:880},
-      {name:'Finland',target:1000,done:730},{name:'Ireland',target:1000,done:650},{name:'Bulgaria',target:1000,done:220},
-      {name:'Croatia',target:1000,done:510},{name:'Czechia',target:1000,done:440},{name:'Estonia',target:500,done:380},
-      {name:'Greece',target:1000,done:470},{name:'Hungary',target:1000,done:350},{name:'Lithuania',target:500,done:410},
-      {name:'Latvia',target:500,done:300},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:420},
-      {name:'Slovenia',target:500,done:310},{name:'Slovakia',target:1000,done:390},{name:'Cyprus',target:500,done:280},
-    ],
-    trendArrows: [
-      {label:"Total 'Serious'", diff:+2}, {label:"Total 'Not Serious'", diff:-1}, {label:'DK', diff:0}
-    ],
-  },
-  {
-    id: 'fb543',
-    title: 'Flash Eurobarometer 543 — Digital Skills & Connectivity',
-    status: 'processing', wave: 'Wave 1 of 2', updated: '12 Jun 2026',
-    progress: 35, progressColor: 'var(--amber)',
-    responses: '9,214', countries: 27, fieldwork: '5 Jun – 15 Jul 2026', changePct: '—',
-    question: 'QD1: How would you rate your own digital skills? (EU27) (%)',
-    dateStamp: 'Jun 2026', prevDateStamp: 'N/A',
-    stacked: {
-      groups: [
-        { label: 'EU 27', curr: [22, 36, 28, 10, 4], prev: null },
-      ],
-      legend: ['Very good', 'Good', 'Basic', 'Poor', 'DK'],
-      colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
-    },
-    pie: { slices: [{n:'Very good',v:22},{n:'Good',v:36},{n:'Basic',v:28},{n:'Poor',v:10},{n:'DK',v:4}] },
-    countryRates: [
-      {name:'Germany',target:1500,done:420},{name:'France',target:1500,done:510},{name:'Italy',target:1500,done:330},
-      {name:'Spain',target:1500,done:580},{name:'Poland',target:1000,done:210},{name:'Netherlands',target:1000,done:390},
-      {name:'Belgium',target:1000,done:280},{name:'Sweden',target:1000,done:470},{name:'Romania',target:1000,done:140},
-      {name:'Portugal',target:1000,done:250},{name:'Austria',target:1000,done:340},{name:'Denmark',target:1000,done:430},
-      {name:'Finland',target:1000,done:380},{name:'Ireland',target:1000,done:310},{name:'Bulgaria',target:1000,done:90},
-      {name:'Croatia',target:1000,done:230},{name:'Czechia',target:1000,done:190},{name:'Estonia',target:500,done:250},
-      {name:'Greece',target:1000,done:200},{name:'Hungary',target:1000,done:160},{name:'Lithuania',target:500,done:210},
-      {name:'Latvia',target:500,done:150},{name:'Luxembourg',target:500,done:340},{name:'Malta',target:500,done:270},
-      {name:'Slovenia',target:500,done:180},{name:'Slovakia',target:1000,done:170},{name:'Cyprus',target:500,done:130},
-    ],
-    trendArrows: [
-      {label:"Total 'Good'", diff:0}, {label:"Total 'Poor'", diff:0}, {label:'DK', diff:0}
-    ],
-  },
-  {
-    id: 'eb551',
-    title: 'Special Eurobarometer 551 — EU Citizens and Defence',
-    status: 'active', wave: 'Wave 4 of 4', updated: '13 Jun 2026',
-    progress: 94, progressColor: 'var(--green)',
-    responses: '31,087', countries: 27, fieldwork: '10 Apr – 15 Jun 2026', changePct: '+5.1%',
-    question: 'QD2: Do you think the EU should have a common defence policy among its Member States? (EU27) (%)',
-    dateStamp: 'Jun 2026', prevDateStamp: 'Oct 2025',
-    stacked: {
-      groups: [
-        { label: 'EU 27', curr: [38, 33, 17, 7, 5], prev: [33, 30, 20, 10, 7] },
-      ],
-      legend: ['Totally agree', 'Tend to agree', 'Tend to disagree', 'Totally disagree', 'DK'],
-      colors: [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk],
-    },
-    pie: { slices: [{n:'Totally agree',v:38},{n:'Tend to agree',v:33},{n:'Tend to disagree',v:17},{n:'Totally disagree',v:7},{n:'DK',v:5}] },
-    countryRates: [
-      {name:'Germany',target:1500,done:1500},{name:'France',target:1500,done:1480},{name:'Italy',target:1500,done:1500},
-      {name:'Spain',target:1500,done:1500},{name:'Poland',target:1000,done:980},{name:'Netherlands',target:1000,done:1000},
-      {name:'Belgium',target:1000,done:1000},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:940},
-      {name:'Portugal',target:1000,done:1000},{name:'Austria',target:1000,done:1000},{name:'Denmark',target:1000,done:1000},
-      {name:'Finland',target:1000,done:1000},{name:'Ireland',target:1000,done:1000},{name:'Bulgaria',target:1000,done:910},
-      {name:'Croatia',target:1000,done:1000},{name:'Czechia',target:1000,done:970},{name:'Estonia',target:500,done:500},
-      {name:'Greece',target:1000,done:1000},{name:'Hungary',target:1000,done:960},{name:'Lithuania',target:500,done:500},
-      {name:'Latvia',target:500,done:500},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
-      {name:'Slovenia',target:500,done:500},{name:'Slovakia',target:1000,done:950},{name:'Cyprus',target:500,done:500},
-    ],
-    trendArrows: [
-      {label:"Total 'Agree'", diff:+4}, {label:"Total 'Disagree'", diff:0}, {label:'DK', diff:-2}
-    ],
-  },
-  {
-    id: 'eb105',
-    title: 'Standard Eurobarometer 105 — Democracy & Institutional Trust',
-    status: 'closed', wave: 'Complete', updated: '28 May 2026',
-    progress: 100, progressColor: 'var(--text-tertiary)',
-    responses: '33,540', countries: 27, fieldwork: '15 Mar – 25 May 2026', changePct: '+2.3%',
-    question: 'QA1: Do you tend to trust or tend not to trust the European Union? (EU27) (%)',
-    dateStamp: 'May 2026', prevDateStamp: 'Nov 2025',
-    stacked: {
-      groups: [
-        { label: 'EU 27', curr: [52, 0, 36, 0, 12], prev: [49, 0, 38, 0, 13] },
-      ],
-      legend: ['Tend to trust', '', 'Tend not to trust', '', 'DK'],
-      colors: [EC.teal, EC.tealLight, EC.purple, EC.salmon, EC.dk],
-    },
-    pie: { slices: [{n:'Tend to trust',v:52},{n:'Tend not to trust',v:36},{n:'DK',v:12}], colors: [EC.teal, EC.purple, EC.dk] },
-    countryRates: [
-      {name:'Germany',target:1500,done:1500},{name:'France',target:1500,done:1500},{name:'Italy',target:1500,done:1500},
-      {name:'Spain',target:1500,done:1500},{name:'Poland',target:1000,done:1000},{name:'Netherlands',target:1000,done:1000},
-      {name:'Belgium',target:1000,done:1000},{name:'Sweden',target:1000,done:1000},{name:'Romania',target:1000,done:1000},
-      {name:'Portugal',target:1000,done:1000},{name:'Austria',target:1000,done:1000},{name:'Denmark',target:1000,done:1000},
-      {name:'Finland',target:1000,done:1000},{name:'Ireland',target:1000,done:1000},{name:'Bulgaria',target:1000,done:1000},
-      {name:'Croatia',target:1000,done:1000},{name:'Czechia',target:1000,done:1000},{name:'Estonia',target:500,done:500},
-      {name:'Greece',target:1000,done:1000},{name:'Hungary',target:1000,done:1000},{name:'Lithuania',target:500,done:500},
-      {name:'Latvia',target:500,done:500},{name:'Luxembourg',target:500,done:500},{name:'Malta',target:500,done:500},
-      {name:'Slovenia',target:500,done:500},{name:'Slovakia',target:1000,done:1000},{name:'Cyprus',target:500,done:500},
-    ],
-    trendArrows: [
-      {label:'Tend to trust', diff:+3}, {label:'Tend not to trust', diff:-2}, {label:'DK', diff:-1}
-    ],
-  },
+var SURVEYS=[
+{id:'eb105',title:'Standard Eurobarometer 105 &mdash; Spring 2026',status:'active',wave:'Wave 3 of 4',updated:'14 Jun 2026',progress:72,progressColor:'var(--accent)',responses:'26,415',countries:27,fieldwork:'12 Mar &ndash; 5 Apr 2026',hasQuestions:true},
+{id:'eb554',title:'Special Eurobarometer 554 &mdash; Climate Change',status:'active',wave:'Wave 2 of 3',updated:'10 Jun 2026',progress:58,progressColor:'var(--green)',responses:'18,730',countries:24,fieldwork:'1 May &ndash; 20 Jun 2026',hasQuestions:false,question:'QC3: How serious a problem do you think climate change is at this moment? (EU27) (%)',stacked:{groups:[{label:'EU 27',curr:[42,36,14,5,3],prev:[40,34,16,6,4]}],legend:['Very serious','Fairly serious','Not very serious','Not at all serious','DK'],colors:[EC.teal,EC.tealLight,EC.salmon,EC.purple,EC.dk]},dateStamp:'Jun 2026',prevDateStamp:'Jan 2026'},
+{id:'fb543',title:'Flash Eurobarometer 543 &mdash; Digital Skills',status:'processing',wave:'Wave 1 of 2',updated:'12 Jun 2026',progress:35,progressColor:'var(--amber)',responses:'9,214',countries:27,fieldwork:'5 Jun &ndash; 15 Jul 2026',hasQuestions:false,question:'QD1: How would you rate your own digital skills? (EU27) (%)',stacked:{groups:[{label:'EU 27',curr:[22,36,28,10,4],prev:null}],legend:['Very good','Good','Basic','Poor','DK'],colors:[EC.teal,EC.tealLight,EC.salmon,EC.purple,EC.dk]},dateStamp:'Jun 2026',prevDateStamp:'N/A'}
 ];
-
-let activeCharts = [];
-let selectedSurvey = null;
-
-function renderSidebar() {
-  const list = document.getElementById('surveyList');
-  document.getElementById('surveyCount').textContent = SURVEYS.length;
-  list.innerHTML = SURVEYS.map((s, i) => `
-    <div class="survey-item animate-in delay-${i+1}" data-id="${s.id}" onclick="selectSurvey('${s.id}')">
-      <div class="survey-item-title">${s.title}</div>
-      <div class="survey-item-meta">
-        <span class="badge badge-${s.status}">${s.status === 'active' ? 'Active' : s.status === 'processing' ? 'Processing' : 'Closed'}</span>
-        <span>${s.wave}</span>
-        <span>&middot;</span>
-        <span>${s.updated}</span>
-      </div>
-      <div class="survey-item-bar"><div class="survey-item-bar-fill" style="width:${s.progress}%;background:${s.progressColor}"></div></div>
-    </div>
-  `).join('');
-}
-
-function selectSurvey(id) {
-  selectedSurvey = SURVEYS.find(s => s.id === id);
-  if (!selectedSurvey) return;
-  document.querySelectorAll('.survey-item').forEach(el => el.classList.toggle('active', el.dataset.id === id));
-  switchTab('results');
-  document.querySelector('[data-tab="results"]').classList.add('active');
-  document.querySelector('[data-tab="upload"]').classList.remove('active');
-  renderResults(selectedSurvey);
-}
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  const rv = document.getElementById('resultsView'), uv = document.getElementById('uploadView'), es = document.getElementById('emptyState');
-  if (tab === 'upload') { rv.classList.add('hidden'); uv.classList.add('visible'); es.style.display = 'none'; }
-  else { uv.classList.remove('visible'); if (selectedSurvey) { es.style.display = 'none'; rv.classList.remove('hidden'); } else { es.style.display = ''; rv.classList.add('hidden'); } }
-}
-
-function renderResults(survey) {
-  activeCharts.forEach(c => c.destroy());
-  activeCharts = [];
-
-  const view = document.getElementById('resultsView');
-  view.classList.remove('hidden');
-  document.getElementById('emptyState').style.display = 'none';
-
-  const st = survey.stacked;
-  const mainGroup = st.groups[0];
-
-  let stackedHTML = '';
-  for (const g of st.groups) {
-    if (g.curr.reduce((a,b)=>a+b,0) === 0) continue;
-    stackedHTML += `<div class="eb-stacked-row">
-      <div class="eb-stacked-label">${survey.dateStamp}</div>
-      <div class="eb-stacked-track">${g.curr.map((v,i) => v > 0 ? `<div class="eb-seg" style="width:${v}%;background:${st.colors[i]}"><span>${v > 3 ? v : ''}</span></div>` : '').join('')}</div>
-    </div>`;
-    if (g.prev) {
-      stackedHTML += `<div class="eb-stacked-row">
-        <div class="eb-stacked-label">${survey.prevDateStamp}</div>
-        <div class="eb-stacked-track prev">${g.prev.map((v,i) => v > 0 ? `<div class="eb-seg" style="width:${v}%;background:${st.colors[i]}"><span>${v > 3 ? v : ''}</span></div>` : '').join('')}</div>
-      </div>`;
-    }
-  }
-  const legendHTML = st.legend.filter(l => l).map((l,i) =>
-    `<div class="eb-legend-item"><div class="eb-legend-sq" style="background:${st.colors[i]}"></div>${l}</div>`
-  ).join('');
-
-
-  const arrowsHTML = survey.trendArrows.map(t => {
-    let cls = 'trend-eq', sym = '=';
-    if (t.diff > 0) { cls = 'trend-up'; sym = `&#9650; ${t.diff}`; }
-    else if (t.diff < 0) { cls = 'trend-down'; sym = `&#9660; ${Math.abs(t.diff)}`; }
-    return `<tr><td>${t.label}</td><td style="text-align:right" class="${cls}">${sym}</td></tr>`;
-  }).join('');
-
-  view.innerHTML = `
-    <div class="results-header animate-in">
-      <h1>${survey.title}</h1>
-      <p>${survey.question}</p>
-    </div>
-
-    <div class="stats-row animate-in delay-1">
-      <div class="stat-card"><div class="stat-label">Responses</div><div class="stat-value">${survey.responses}</div><div class="stat-change">${survey.changePct} vs prev wave</div></div>
-      <div class="stat-card"><div class="stat-label">Countries</div><div class="stat-value">${survey.countries}</div></div>
-      <div class="stat-card"><div class="stat-label">Fieldwork</div><div class="stat-value" style="font-size:1rem">${survey.fieldwork}</div></div>
-      <div class="stat-card"><div class="stat-label">Collection</div><div class="stat-value">${survey.progress}%</div><div class="stat-change">${survey.wave}</div></div>
-    </div>
-
-    <div class="charts-grid">
-      <div class="chart-card animate-in delay-2">
-        <div class="chart-title">Response Breakdown <small>${survey.dateStamp} vs ${survey.prevDateStamp}</small></div>
-        <div class="eb-stacked">${stackedHTML}</div>
-        <div class="eb-legend">${legendHTML}</div>
-        <table class="eb-trend-table" style="margin-top:14px;max-width:220px">
-          <tbody>${arrowsHTML}</tbody>
-        </table>
-        <div style="font-size:0.62rem;color:var(--text-tertiary);margin-top:5px">&#9650;&#9660; (${survey.dateStamp} – ${survey.prevDateStamp})</div>
-      </div>
-
-      <div class="chart-card animate-in delay-2">
-        <div class="chart-title">Pie Chart <small>EU27 aggregate</small></div>
-        <div class="chart-container short" id="pieContainer"></div>
-      </div>
-
-      <div class="chart-card full-width animate-in delay-3">
-        <div class="chart-title">Response Rate by Country <small>${survey.countryRates.filter(c=>c.done>=c.target).length} of ${survey.countryRates.length} complete</small></div>
-        <div class="chart-container" id="countryRateContainer" style="height:auto;min-height:300px"></div>
-      </div>
-
-    </div>
-  `;
-
-  if (typeof Highcharts !== 'undefined') {
-    requestAnimationFrame(() => {
-      buildPie(survey);
-      buildCountryRates(survey);
-    });
-  }
-}
-
-if (typeof Highcharts !== 'undefined') {
-  Highcharts.setOptions({
-    chart: { style: { fontFamily: "'Poppins', 'Century Gothic', system-ui, sans-serif" } },
-    credits: { enabled: false },
-    exporting: { enabled: false },
-  });
-}
-
-function buildPie(survey) {
-  const slices = survey.pie.slices;
-  const colors = survey.pie.colors || [EC.teal, EC.tealLight, EC.salmon, EC.purple, EC.dk];
-  const chart = Highcharts.chart('pieContainer', {
-    chart: { type: 'pie', backgroundColor: 'transparent', marginTop: 5 },
-    title: { text: null },
-    plotOptions: {
-      pie: {
-        borderWidth: 0, borderRadius: 0, startAngle: 90, size: '85%', center: ['50%','50%'],
-        dataLabels: {
-          enabled: true, format: '<b>{point.name}</b>',
-          style: { fontSize: '11px', fontWeight: 'bold', color: '#333', textOutline: 'none' },
-          distance: 18, connectorWidth: 1, connectorColor: '#999',
-        },
-      },
-    },
-    series: [{ name: 'Response', borderWidth: 0, borderColor: null, data: slices.map((s,i) => ({ name: `${s.n} ${s.v}`, y: s.v, color: colors[i % colors.length], borderWidth: 0, borderColor: colors[i % colors.length] })) }],
-  });
-  activeCharts.push(chart);
-}
-
-function buildCountryRates(survey) {
-  const rates = survey.countryRates.slice().sort((a,b) => (b.done/b.target) - (a.done/a.target));
-  const chart = Highcharts.chart('countryRateContainer', {
-    chart: { type: 'bar', backgroundColor: 'transparent', height: Math.max(400, rates.length * 26 + 60) },
-    title: { text: null },
-    xAxis: {
-      categories: rates.map(c => c.name),
-      labels: { style: { fontSize: '11px', color: '#555' } },
-      lineWidth: 0, tickWidth: 0,
-    },
-    yAxis: {
-      min: 0, max: 100, title: { text: null },
-      labels: { format: '{value}%', style: { fontSize: '10px', color: '#666' } },
-      gridLineColor: '#e6e6e6',
-      plotLines: [{ value: 100, color: EC.teal, width: 2, dashStyle: 'Dash' }],
-    },
-    plotOptions: {
-      bar: {
-        borderWidth: 0, borderRadius: 2, groupPadding: 0.05, pointPadding: 0.02,
-        dataLabels: { enabled: true, format: '{point.done}/{point.target}', style: { fontSize: '9px', fontWeight: '600', textOutline: 'none', color: '#555' } },
-      },
-    },
-    legend: { enabled: false },
-    tooltip: { pointFormat: '<b>{point.done}</b> of {point.target} interviews ({point.y:.0f}%)' },
-    series: [{
-      name: 'Completion',
-      data: rates.map(c => {
-        const pct = Math.round(c.done / c.target * 100);
-        return { y: pct, done: c.done, target: c.target, color: pct >= 100 ? EC.teal : pct >= 60 ? EC.tealLight : '#f59795' };
-      }),
-    }],
-  });
-  activeCharts.push(chart);
-}
-
-// Upload
-const uploadZone = document.getElementById('uploadZone');
-const fileInput = document.getElementById('fileInput');
-uploadZone.addEventListener('click', () => fileInput.click());
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-function handleFiles(files) {
-  if (!files.length) return;
-  for (const file of files) {
-    const li = document.createElement('div');
-    li.className = 'upload-log-item animate-in';
-    li.innerHTML = `<div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="upload-log-info"><div class="upload-log-name">${file.name}</div><div class="upload-log-meta">Uploaded just now &middot; ${(file.size/1024).toFixed(0)} KB</div></div>
-      <div class="upload-log-status">Merged</div>`;
-    document.getElementById('uploadLog').prepend(li);
-  }
-  showToast(`${files.length} file${files.length>1?'s':''} uploaded and merged successfully`);
-  if (selectedSurvey) { simulateUpdate(selectedSurvey); renderResults(selectedSurvey); }
-}
-
-function simulateUpdate(survey) {
-  survey.countryRates.forEach(c => {
-    c.done = Math.min(c.target, c.done + Math.floor(Math.random() * 80 + 20));
-  });
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('visible');
-  setTimeout(() => t.classList.remove('visible'), 3500);
-}
-
-// Init sidebar and select first survey by default
-try { renderSidebar(); selectSurvey(SURVEYS[0].id); } catch(e) { console.error('Init error:', e); }
+var activeCharts=[],selectedSurvey=null,activeQuestionIdx=0;
+function renderSidebar(){document.getElementById('surveyCount').textContent=SURVEYS.length;document.getElementById('surveyList').innerHTML=SURVEYS.map(function(s,i){var sl=s.status==='active'?'Active':'Processing';return'<div class="survey-item animate-in delay-'+(i+1)+'" data-id="'+s.id+'" onclick="selectSurvey(\''+s.id+'\')"><div class="survey-item-title">'+s.title+'</div><div class="survey-item-meta"><span class="badge badge-'+s.status+'">'+sl+'</span><span>'+s.wave+'</span><span>&middot;</span><span>'+s.updated+'</span></div><div class="survey-item-bar"><div class="survey-item-bar-fill" style="width:'+s.progress+'%;background:'+s.progressColor+'"></div></div></div>';}).join('');}
+function selectSurvey(id){selectedSurvey=null;for(var i=0;i<SURVEYS.length;i++){if(SURVEYS[i].id===id){selectedSurvey=SURVEYS[i];break;}}if(!selectedSurvey)return;activeQuestionIdx=0;document.querySelectorAll('.survey-item').forEach(function(el){el.classList.toggle('active',el.dataset.id===id);});switchTab('results');document.querySelector('[data-tab="results"]').classList.add('active');document.querySelector('[data-tab="upload"]').classList.remove('active');if(selectedSurvey.hasQuestions)renderEB105();else renderSimpleResults(selectedSurvey);}
+function switchTab(tab){document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab);});var rv=document.getElementById('resultsView'),uv=document.getElementById('uploadView'),es=document.getElementById('emptyState');if(tab==='upload'){rv.classList.add('hidden');uv.classList.add('visible');es.style.display='none';}else{uv.classList.remove('visible');if(selectedSurvey){es.style.display='none';rv.classList.remove('hidden');}else{es.style.display='';rv.classList.add('hidden');}}}
+function destroyCharts(){activeCharts.forEach(function(c){try{c.destroy();}catch(e){}});activeCharts=[];}
+function selectQuestion(idx){activeQuestionIdx=idx;renderEB105();}
+function renderEB105(){destroyCharts();var survey=selectedSurvey,view=document.getElementById('resultsView');view.classList.remove('hidden');document.getElementById('emptyState').style.display='none';var q=EB105_QUESTIONS[activeQuestionIdx];var pillsHTML=EB105_QUESTIONS.map(function(qq,i){return'<div class="q-pill'+(i===activeQuestionIdx?' active':'')+'" onclick="selectQuestion('+i+')"><span class="q-pill-code">'+qq.code+'</span><span class="q-pill-name">'+qq.shortName+'</span></div>';}).join('');var qHTML=q.isMultiInstitution?buildMultiHTML(q):buildSingleHTML(q);view.innerHTML='<div class="results-header animate-in"><h1>'+survey.title+'</h1><p>'+q.question+'</p></div><div class="stats-row animate-in delay-1"><div class="stat-card"><div class="stat-label">Interviews EU27</div><div class="stat-value">'+survey.responses+'</div></div><div class="stat-card"><div class="stat-label">Countries</div><div class="stat-value">'+survey.countries+'</div></div><div class="stat-card"><div class="stat-label">Fieldwork</div><div class="stat-value" style="font-size:1rem">'+survey.fieldwork+'</div></div><div class="stat-card"><div class="stat-label">Collection</div><div class="stat-value">'+survey.progress+'%</div><div class="stat-change">'+survey.wave+'</div></div></div><div class="methodology-strip animate-in delay-1"><span><strong>Coverage:</strong> 27 EU Member States</span><span><strong>Method:</strong> Face-to-face</span><span><strong>Population:</strong> 15+</span><span><strong>Weighted:</strong> EU27</span></div><div class="question-nav animate-in delay-2">'+pillsHTML+'</div>'+qHTML;if(typeof Highcharts!=='undefined'){requestAnimationFrame(function(){if(q.trend)buildTrendChart(q);if(q.countries)buildCountryBreakdown(q);});}}
+function buildSingleHTML(q){var eu=q.eu27,diff=eu.curr.map(function(v,i){return v-eu.prev[i];});var cb=eu.curr.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+q.colors[i]+'"><span>'+v+'%</span></div>':'';}).join('');var pb=eu.prev.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+q.colors[i]+'"><span>'+v+'%</span></div>':'';}).join('');var leg=q.categories.map(function(c,i){return'<div class="eb-legend-item"><div class="eb-legend-sq" style="background:'+q.colors[i]+'"></div>'+c+'</div>';}).join('');var ar=q.categories.map(function(c,i){var d=diff[i],cls='trend-eq',sym='=';if(d>0){cls='trend-up';sym='&#9650; +'+d+' pp';}else if(d<0){cls='trend-down';sym='&#9660; '+d+' pp';}return'<tr><td>'+c+'</td><td style="text-align:right" class="'+cls+'">'+sym+'</td></tr>';}).join('');var ht=!!q.trend,hc=!!q.countries;var h='<div class="charts-grid animate-in delay-3"><div class="chart-card'+(ht?'':' full-width')+'"><div class="chart-title">EU27 Summary <small>Mar/Apr 2026 vs '+q.prevLabel+'</small></div><div class="eb-stacked"><div class="eb-stacked-row"><div class="eb-stacked-label">Mar/Apr 2026</div><div class="eb-stacked-track">'+cb+'</div></div><div class="eb-stacked-row"><div class="eb-stacked-label">'+q.prevLabel+'</div><div class="eb-stacked-track prev">'+pb+'</div></div></div><div class="eb-legend">'+leg+'</div><table class="eb-trend-table" style="margin-top:16px;max-width:260px"><tbody>'+ar+'</tbody></table><div style="font-size:0.62rem;color:var(--text-tertiary);margin-top:6px">&#9650;&#9660; change vs '+q.prevLabel+'</div></div>';if(ht)h+='<div class="chart-card"><div class="chart-title">Trend over time <small>% EU27</small></div><div class="chart-container short" id="trendContainer"></div></div>';if(hc)h+='<div class="chart-card full-width"><div class="chart-title">Country Breakdown <small>Mar/Apr 2026 &mdash; sorted by '+q.categories[0]+'</small></div><div class="chart-container" id="countryContainer" style="height:850px"></div></div>';h+='</div>';return h;}
+function buildMultiHTML(q){var bars='<div class="multi-bar-group">';q.institutions.forEach(function(inst){var cb=inst.curr.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+q.colors[i]+'"><span>'+(v>4?v+'%':'')+'</span></div>':'';}).join('');var pb=inst.prev.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+q.colors[i]+'"><span>'+(v>4?v+'%':'')+'</span></div>':'';}).join('');bars+='<div class="multi-bar-col"><h4>'+inst.name+' <span style="color:var(--ec-teal);font-weight:700;font-size:0.72rem">('+inst.change+' pp)</span></h4><div class="eb-stacked"><div class="eb-stacked-row"><div class="eb-stacked-label" style="width:90px">Mar/Apr 2026</div><div class="eb-stacked-track">'+cb+'</div></div><div class="eb-stacked-row"><div class="eb-stacked-label" style="width:90px">Aut 2025</div><div class="eb-stacked-track prev">'+pb+'</div></div></div></div>';});bars+='</div>';var leg=q.categories.map(function(c,i){return'<div class="eb-legend-item"><div class="eb-legend-sq" style="background:'+q.colors[i]+'"></div>'+c+'</div>';}).join('');return'<div class="charts-grid animate-in delay-3"><div class="chart-card full-width"><div class="chart-title">EU27 &mdash; Institutional Trust <small>Mar/Apr 2026 vs Aut 2025</small></div>'+bars+'<div class="eb-legend" style="margin-top:14px">'+leg+'</div></div><div class="chart-card full-width"><div class="chart-title">Trust Trend &mdash; Tend to trust <small>% EU27</small></div><div class="chart-container" id="trendContainer" style="height:340px"></div></div></div>';}
+function renderSimpleResults(survey){destroyCharts();var view=document.getElementById('resultsView');view.classList.remove('hidden');document.getElementById('emptyState').style.display='none';var st=survey.stacked,sHTML='';st.groups.forEach(function(g){sHTML+='<div class="eb-stacked-row"><div class="eb-stacked-label">'+survey.dateStamp+'</div><div class="eb-stacked-track">'+g.curr.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+st.colors[i]+'"><span>'+(v>3?v+'%':'')+'</span></div>':'';}).join('')+'</div></div>';if(g.prev)sHTML+='<div class="eb-stacked-row"><div class="eb-stacked-label">'+survey.prevDateStamp+'</div><div class="eb-stacked-track prev">'+g.prev.map(function(v,i){return v>0?'<div class="eb-seg" style="width:'+v+'%;background:'+st.colors[i]+'"><span>'+(v>3?v+'%':'')+'</span></div>':'';}).join('')+'</div></div>';});var leg=st.legend.filter(function(l){return l;}).map(function(l,i){return'<div class="eb-legend-item"><div class="eb-legend-sq" style="background:'+st.colors[i]+'"></div>'+l+'</div>';}).join('');view.innerHTML='<div class="results-header animate-in"><h1>'+survey.title+'</h1><p>'+survey.question+'</p></div><div class="stats-row animate-in delay-1"><div class="stat-card"><div class="stat-label">Responses</div><div class="stat-value">'+survey.responses+'</div></div><div class="stat-card"><div class="stat-label">Countries</div><div class="stat-value">'+survey.countries+'</div></div><div class="stat-card"><div class="stat-label">Fieldwork</div><div class="stat-value" style="font-size:1rem">'+survey.fieldwork+'</div></div><div class="stat-card"><div class="stat-label">Collection</div><div class="stat-value">'+survey.progress+'%</div><div class="stat-change">'+survey.wave+'</div></div></div><div class="charts-grid"><div class="chart-card animate-in delay-2"><div class="chart-title">Response Breakdown <small>'+survey.dateStamp+(survey.prevDateStamp!=='N/A'?' vs '+survey.prevDateStamp:'')+'</small></div><div class="eb-stacked">'+sHTML+'</div><div class="eb-legend">'+leg+'</div></div><div class="chart-card animate-in delay-2"><div class="chart-title">Distribution <small>EU27</small></div><div class="chart-container short" id="pieContainer"></div></div></div>';if(typeof Highcharts!=='undefined'){requestAnimationFrame(function(){buildPie(survey);});}}
+if(typeof Highcharts!=='undefined'){Highcharts.setOptions({chart:{style:{fontFamily:"'Poppins','Century Gothic',system-ui,sans-serif"}},credits:{enabled:false},exporting:{enabled:false}});}
+function buildTrendChart(q){var el=document.getElementById('trendContainer');if(!el)return;var c=Highcharts.chart('trendContainer',{chart:{type:'spline',backgroundColor:'transparent',marginTop:10},title:{text:null},xAxis:{categories:q.trend.labels,labels:{style:{fontSize:'10px',color:'#999'},rotation:-45},lineColor:'#e0dbd5',tickColor:'#e0dbd5'},yAxis:{title:{text:null},min:0,max:100,labels:{format:'{value}%',style:{fontSize:'10px',color:'#999'}},gridLineColor:'#f0ebe5'},legend:{enabled:true,align:'center',verticalAlign:'bottom',itemStyle:{fontSize:'11px',fontWeight:'600',color:'#666'}},tooltip:{valueSuffix:'%',shared:true,backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#ddd',borderRadius:10},plotOptions:{spline:{lineWidth:2.5,marker:{radius:3.5,symbol:'circle',lineWidth:1,lineColor:'#fff'},states:{hover:{lineWidth:3.5}}}},series:q.trend.series.map(function(s){return{name:s.name,color:s.color,data:s.data};})});activeCharts.push(c);}
+function buildCountryBreakdown(q){var el=document.getElementById('countryContainer');if(!el)return;var countries=q.countries,cats=q.categories,colors=q.colors;var c=Highcharts.chart('countryContainer',{chart:{type:'bar',backgroundColor:'transparent',height:Math.max(500,countries.length*28+80)},title:{text:null},xAxis:{categories:countries.map(function(c){return c.code==='EU27'?'<b style="color:#F07D00">EU 27</b>':c.name;}),labels:{useHTML:true,style:{fontSize:'11px',color:'#666'}},lineWidth:0,tickWidth:0},yAxis:{min:0,max:100,title:{text:null},labels:{format:'{value}%',style:{fontSize:'10px',color:'#999'}},gridLineColor:'#f0ebe5',reversedStacks:false},legend:{enabled:true,align:'center',verticalAlign:'bottom',itemStyle:{fontSize:'11px',fontWeight:'600',color:'#666'}},tooltip:{shared:true,pointFormat:'<span style="color:{series.color}">&#9679;</span> {series.name}: <b>{point.y}%</b><br/>',backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#ddd',borderRadius:10},plotOptions:{bar:{stacking:'normal',borderWidth:0,borderRadius:2,pointPadding:0.04,groupPadding:0.02,dataLabels:{enabled:true,format:'{point.y}',style:{fontSize:'9px',fontWeight:'600',color:'#fff',textOutline:'none'},filter:{property:'y',operator:'>',value:5}}}},series:cats.map(function(cat,i){return{name:cat,color:colors[i],data:countries.map(function(c){return c.v[i];})};})});activeCharts.push(c);}
+function buildPie(survey){var el=document.getElementById('pieContainer');if(!el)return;var sl=survey.stacked.groups[0].curr,lb=survey.stacked.legend,cl=survey.stacked.colors;var c=Highcharts.chart('pieContainer',{chart:{type:'pie',backgroundColor:'transparent'},title:{text:null},plotOptions:{pie:{borderWidth:0,borderRadius:4,startAngle:90,size:'85%',center:['50%','50%'],dataLabels:{enabled:true,format:'<b>{point.name}</b>',style:{fontSize:'11px',fontWeight:'bold',color:'#444',textOutline:'none'},distance:18,connectorWidth:1,connectorColor:'#bbb'}}},tooltip:{pointFormat:'<b>{point.y}%</b>',backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#ddd',borderRadius:10},series:[{name:'Response',data:sl.map(function(v,i){return{name:lb[i]+' '+v+'%',y:v,color:cl[i],borderWidth:0,borderColor:cl[i]};}).filter(function(d){return d.y>0;})}]});activeCharts.push(c);}
+var uploadZone=document.getElementById('uploadZone'),fileInput=document.getElementById('fileInput');
+uploadZone.addEventListener('click',function(){fileInput.click();});
+uploadZone.addEventListener('dragover',function(e){e.preventDefault();uploadZone.classList.add('dragover');});
+uploadZone.addEventListener('dragleave',function(){uploadZone.classList.remove('dragover');});
+uploadZone.addEventListener('drop',function(e){e.preventDefault();uploadZone.classList.remove('dragover');handleFiles(e.dataTransfer.files);});
+fileInput.addEventListener('change',function(e){handleFiles(e.target.files);});
+function handleFiles(files){if(!files.length)return;for(var i=0;i<files.length;i++){var file=files[i],li=document.createElement('div');li.className='upload-log-item animate-in';li.innerHTML='<div class="upload-log-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="upload-log-info"><div class="upload-log-name">'+file.name+'</div><div class="upload-log-meta">Uploaded just now &middot; '+(file.size/1024).toFixed(0)+' KB</div></div><div class="upload-log-status">Merged</div>';document.getElementById('uploadLog').prepend(li);}showToast(files.length+' file'+(files.length>1?'s':'')+' uploaded and merged successfully');}
+function showToast(msg){var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('visible');setTimeout(function(){t.classList.remove('visible');},3500);}
+try{renderSidebar();selectSurvey(SURVEYS[0].id);}catch(e){console.error('Init error:',e);}
 </script>
 </body>
 </html>
